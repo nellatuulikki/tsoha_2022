@@ -1,0 +1,9 @@
+<title>Etusivu</title>
+<h1>Etusivu</h1>
+<b>Tervetuloa araamaan hotellia!</b>
+<b>Varattavissa ovat seuraavat hotellit</b>
+<ul>
+{% for hotel in hotels %}
+<li><a href="/hotel/{{ hotel.id }}">{{ hotel.hotel_name }}</a>
+{% endfor %}
+</ul>
