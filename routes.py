@@ -14,9 +14,10 @@ def add_hotel():
 
 @app.route("/hotel/<int:hotel_id>")
 def show_hotel(hotel_id):
-    #hotel_name = hotels.get_hotel_info(hotel_id=hotel_id)
+    hotel_name = hotels.get_hotel_info(hotel_id=hotel_id)
+    print(hotel_name[0])
 
-    return render_template("hotel.html") #hotel_name=hotel_name[0])
+    return render_template("hotel.html", hotel_name = hotel_name[0])
 
 @app.route("/database_change", methods=["POST"])
 def database_change():
@@ -32,3 +33,4 @@ def database_change():
                             hotel_name=hotel_name,
                             hotel_address=hotel_address,
                             stars=stars)
+

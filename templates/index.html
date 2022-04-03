@@ -1,9 +1,21 @@
 <title>Etusivu</title>
 <h1>Etusivu</h1>
-<b>Tervetuloa araamaan hotellia!</b>
+<b>Tervetuloa varaamaan hotellia!</b>
+<br>
+
+{% if session.user_id %}
+Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<a href="/login">Kirjaudu sisään</a>
+<a href="/register">Luo tunnus</a>
+{% endif %}
+<br>
+
 <b>Varattavissa ovat seuraavat hotellit</b>
 <ul>
 {% for hotel in hotels %}
 <li><a href="/hotel/{{ hotel.id }}">{{ hotel.hotel_name }}</a>
 {% endfor %}
 </ul>
+
+<a href="/add_hotel">Lisää hotelli</a>
