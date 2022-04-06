@@ -11,6 +11,12 @@ Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 {% endif %}
 <br>
 
+Valitse tulo- ja lähtöpäivä:
+Tulopäivä <input type="text" name="check_in">
+Lähtöpäivä <input type="text" name="check_out">
+Lähtöpäivä <input type="text" name="check_out">
+
+
 <b>Varattavissa ovat seuraavat hotellit</b>
 <ul>
 {% for hotel in hotels %}
@@ -19,3 +25,4 @@ Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 </ul>
 
 <a href="/add_hotel">Lisää hotelli</a>
+<a href="/add_amenity">Lisää hotellille mukavuuksia</a>

@@ -5,6 +5,12 @@ CREATE TABLE hotels (
     stars INTEGER
 );
 
+CREATE TABLE amenities (
+    id SERIAL PRIMARY KEY,
+    hotel_id INTEGER REFERENCES hotels,
+    amenity TEXT
+);
+
 CREATE TABLE recommendations (
     id SERIAL PRIMARY KEY,
     hotel_id TEXT,

@@ -1,8 +1,12 @@
 {{ hotel_name }}<br>
-
 <br>
+
 Hotellin palvelut: <br>
+{% for amenity in amenities %}
+<li>{{ amenity.amenity}}
+{% endfor %} <br>
+<br>
+
 Huoneiden mukavuudet: <br>
 Maksulliset lisäpalvelut <br>
 Hotellihuoneet päivämääräälle: <br>
-
