@@ -41,3 +41,17 @@ def add_amenity(amenities, hotel_id = 1):
     except Exception as e:
         print(e)
         return False
+
+def add_room(hotel_id, room_description, guests, square_meters, number_of_rooms, price):
+    try:
+        sql = "INSERT INTO rooms (hotel_id, room_description, guests, square_meters, number_of_rooms, price) VALUES (:hotel_id, :room_description, :guests, :square_meters, :number_of_rooms, :price)"
+        db.session.execute(sql, {"hotel_id":hotel_id, "room_description": room_description, 'guests':guests, 'square_meters':square_meters, 'number_of_rooms': number_of_rooms, 'price':price})
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+def get_rooms(hotel_id):
+    sql = "SELECT * FROM rooms WHERE hotel_id= :hotel_id"
+    return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()

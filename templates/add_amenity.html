@@ -1,5 +1,7 @@
 <form action="/send_1" method="POST">
 Hotellissa on seuraavat palvelut:
+
+Hotellissa on seuraavat palvelut:
 <input type="checkbox" name="hotel_amenity" value="spa"> Kylpylä
 <input type="checkbox" name="hotel_amenity" value="free_parking"> Ilmainen pysäköinti
 <input type="checkbox" name="hotel_amenity" value="restaurant"> Ravintola
@@ -21,4 +23,20 @@ Huoneissa on seuraavat mukavuudet
 <input type="checkbox" name="room_amenity" value="hair_dryer"> Hiustenkuivaaja
 <input type="submit" value="Tallenna">
 </form>
-    
+
+Palvelussa olevat huoneet:
+
+Lisää huone:
+<form action="/send_3" method="POST">
+Huoneen kuvaus:
+<input type="Text" name="room_description">
+Asiakasmäärä:
+<input type="integer" name="guests">
+Hotellihuoneen pinta-ala:
+<input type="text" name="square_meters">
+Huoneiden lukumäärä:
+<input type="text" name="number_of_rooms">
+Huoneen hinta per yö:
+<input type="float" name="price">
+<input type="submit" value="Lisää huoneet">
+</form>

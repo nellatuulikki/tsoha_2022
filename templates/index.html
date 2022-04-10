@@ -11,11 +11,14 @@ Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 {% endif %}
 <br>
 
-Valitse tulo- ja lähtöpäivä:
+
+<form action="/book_hotel" method="POST">
+Valitse tulo- ja lähtöpäivä:<br>
 Tulopäivä <input type="text" name="check_in">
 Lähtöpäivä <input type="text" name="check_out">
-Lähtöpäivä <input type="text" name="check_out">
-
+Asiakkaiden lukumäärä <input type="integer" name="customers">
+<input type="submit" value="Lähetä">
+</form>
 
 <b>Varattavissa ovat seuraavat hotellit</b>
 <ul>
