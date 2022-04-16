@@ -5,6 +5,7 @@ from flask import render_template, request, redirect
 from db import db
 import hotels
 import reservations
+from datetime import datetime
 
 @app.route("/")
 def index():
@@ -94,12 +95,24 @@ def send_rooms():
     else:
         return render_template("database_change.html", message= 'Ei toimi')
 
+@app.route("/update_booking_calendar", methods=["POST"])
+def update_booking_calendar():
+    room_id = request.form["room_id"]
+    start_date = datetime.strptime(request.form["start_date"], "%Y-%m-%d")
+    end_date = datetime.strptime(request.form["end_date"], "%Y-%m-%d")
+
+    if reservations.add_new_dates_to_calendar(start_date, end_date, room_id, hotels.get_room_guest_number(room_id)[0]):
+        return redirect("/")
+    else:
+        return render_template("database_change.html", message= 'Ei toimi')
+
 @app.route("/create_booking", methods=["POST"])
 def create_booking():
     room_id = request.form["room_id"]
     check_in = str(request.form["check_in"])
     check_out = str(request.form["check_out"])
     guests = int(request.form["guests"])
+
 
     if reservations.add_reservation(room_id, 1, check_in, check_out, guests):
         reservations.update_available_rooms(room_id, check_in)

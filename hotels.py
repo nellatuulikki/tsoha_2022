@@ -42,6 +42,11 @@ def add_amenity(amenities, hotel_id = 1):
         print(e)
         return False
 
+
+def get_room_guest_number(room_id):
+    sql = "SELECT number_of_rooms FROM rooms WHERE id= :room_id"
+    return db.session.execute(sql, {"room_id": room_id}).fetchone()
+
 def add_room(hotel_id, room_description, guests, square_meters, number_of_rooms, price):
     try:
         sql = "INSERT INTO rooms (hotel_id, room_description, guests, square_meters, number_of_rooms, price) VALUES (:hotel_id, :room_description, :guests, :square_meters, :number_of_rooms, :price)"
