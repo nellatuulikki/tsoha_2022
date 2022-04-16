@@ -20,7 +20,7 @@ CREATE TABLE recommendations (
 );
 
 CREATE TABLE rooms (
-    room_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     hotel_id INTEGER REFERENCES hotels,
     room_description TEXT,
     guests INTEGER,
@@ -32,15 +32,20 @@ CREATE TABLE reservations (
     reservation_id SERIAL PRIMARY KEY,
     room_id INTEGER REFERENCES rooms,
     customer_id INTEGER REFERENCES customers,
-    check_in TEXT,
-    check_out TEXT,
-    guests INTEGER,
+    check_in DATE,
+    check_out DATE,
+    guests INTEGER
 );
 
 CREATE TABLE calendar (
     id SERIAL PRIMARY KEY,
-    reservation_date TEXT,
+    reservation_date DATE,
     room_id INTEGER REFERENCES rooms,
-    reservation_id TEXT,
     available_rooms INTEGER,
+);
+
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    username TEXT,
+    password TEXT
 );

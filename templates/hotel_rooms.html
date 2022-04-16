@@ -1,0 +1,18 @@
+Hotellissa {{ hotel_name }} on seuraavia vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ guests }} asiakkaalle
+
+<b>Varattavissa ovat seuraavat huoneet</b>
+<ul>
+{% for room in available_rooms %}
+<form action="/create_booking" method="POST">
+<li> {{ room.room_description }}
+<li> Vuodepaikkoja on {{ room.guests }}
+<li> Huoneessa on {{ room.square_meters }} neliömetriä
+<input type="hidden" name="room_id" value= {{room.id}}> 
+<input type="hidden" name="check_in" value= {{check_in}}>
+<input type="hidden" name="check_out" value= {{check_out}}> 
+<input type="hidden" name="guests" value= {{guests}}>
+<input type="submit" value="Varaa Huone">
+</form>
+
+{% endfor %}
+</ul>

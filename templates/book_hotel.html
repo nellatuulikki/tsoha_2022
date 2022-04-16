@@ -1,1 +1,22 @@
-Hotellit päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle
+Hotellit joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle
+
+<b>Varattavissa ovat seuraavat hotellit</b>
+<ul>
+{% for hotel in available_hotels %}
+<li><a href="/hotel_rooms">{{ hotel.hotel_name }}</a>
+{% endfor %}
+</ul>
+
+<b>Varattavissa ovat seuraavat hotellit</b>
+<ul>
+{% for hotel in available_hotels %}
+<form action="/hotel_rooms" method="POST">
+<input type="hidden" name="check_in" value= {{check_in}}>
+<input type="hidden" name="check_out" value= {{check_out}}> 
+<input type="hidden" name="hotel_id" value= {{hotel.hotel_id}}> 
+<input type="hidden" name="guests" value= {{customers}}>
+<button type="submit"> {{ hotel.hotel_name }}</button>
+</form>
+{% endfor %}
+</ul>
+

@@ -1,0 +1,8 @@
+{% if new_booking == True %}
+Uusi varaus tehty!
+{% endif %}
+
+{% for room in reserved_rooms %}
+{{ room.reservation_id}} {{ room.room_id}} {{ room.check_in}} {{ room.check_out}} {{ room.guests}} <br>
+{% endfor %}
+<br>

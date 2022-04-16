@@ -40,3 +40,13 @@ Huoneen hinta per yö:
 <input type="float" name="price">
 <input type="submit" value="Lisää huoneet">
 </form>
+
+
+<form action="/update_booking_calendar" method="POST">
+Lisää huonetyyppi varattavaksi seuraaville päiville:<br>
+Huoneid <input type="text" name="room_id">
+Aloituspäivä <input type="text" name="start_date">
+Lopetuspäivämäärä <input type="text" name="end_date">
+<input type="submit" value="Lisää varattavat päivät">
+</form>
+    

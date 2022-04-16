@@ -3,8 +3,8 @@ from tabnanny import check
 from app import app
 from flask import render_template, request, redirect
 from db import db
-import messages 
 import hotels
+import reservations
 
 @app.route("/")
 def index():
@@ -20,20 +20,36 @@ def add_amenity():
     return render_template("add_amenity.html")
 
 @app.route("/book_hotel", methods=["POST"])
-def book_hotel():
+def show_available_hotels():
     check_in = request.form["check_in"]
     check_out = request.form["check_out"]
     customers = request.form["customers"]
-    print(check_in)
 
-    return render_template("book_hotel.html", check_in=check_in, check_out=check_out, customers=customers)
+    available_hotels = reservations.get_available_hotels(check_in, customers)
+
+    return render_template("book_hotel.html", check_in=check_in, check_out=check_out, customers=customers, available_hotels = available_hotels)
+
+@app.route("/hotel_rooms", methods=["POST"])
+def show_available_rooms():
+    check_in = str(request.form["check_in"])
+    check_out = str(request.form["check_out"])
+    guests = request.form["guests"]
+    hotel_id = request.form["hotel_id"]
+
+    available_rooms = reservations.get_available_rooms(hotel_id=hotel_id, reservation_date=check_in)
+    hotel_name = hotels.get_hotel_name(hotel_id=hotel_id)
+
+    return render_template("hotel_rooms.html", hotel_name = hotel_name[0], available_rooms = available_rooms, check_in = check_in, check_out=check_out, guests=guests)
+
+@app.route("/bookings")
+def bookings():
+    reserved_rooms = reservations.get_reservations_by_customer_id(1)
+    return render_template("bookings.html", reserved_rooms = reserved_rooms, new_booking = False)
 
 @app.route("/hotel/<int:hotel_id>")
 def show_hotel(hotel_id):
     hotel_name = hotels.get_hotel_name(hotel_id=hotel_id)
     amenities = hotels.get_amenities(hotel_id=hotel_id)
-    print(amenities)
-
     return render_template("hotel.html", hotel_name = hotel_name[0], amenities = amenities)
 
 @app.route("/send", methods=["POST"])
@@ -75,5 +91,18 @@ def send_rooms():
 
     if hotels.add_room(1, description, guests, square_meters, number_of_rooms, price):
         return redirect("/add_amenity")
+    else:
+        return render_template("database_change.html", message= 'Ei toimi')
+
+@app.route("/create_booking", methods=["POST"])
+def create_booking():
+    room_id = request.form["room_id"]
+    check_in = str(request.form["check_in"])
+    check_out = str(request.form["check_out"])
+    guests = int(request.form["guests"])
+
+    if reservations.add_reservation(room_id, 1, check_in, check_out, guests):
+        reservations.update_available_rooms(room_id, check_in)
+        return render_template("/bookings.html", reserved_rooms = reservations.get_reservations_by_customer_id(1), new_booking = True)
     else:
         return render_template("database_change.html", message= 'Ei toimi')
