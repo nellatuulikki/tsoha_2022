@@ -1,10 +1,9 @@
-from email import message
-from tabnanny import check
 from app import app
 from flask import render_template, request, redirect
 from db import db
 import hotels
 import reservations
+import users
 from datetime import datetime
 
 @app.route("/")
@@ -46,6 +45,32 @@ def show_available_rooms():
 def bookings():
     reserved_rooms = reservations.get_reservations_by_customer_id(1)
     return render_template("bookings.html", reserved_rooms = reserved_rooms, new_booking = False)
+
+
+@app.route("/register", methods=["get", "post"])
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
+
+    if request.method == "POST":
+        username = request.form["username"]
+        if len(username) < 1 or len(username) > 15:
+            return render_template("error.html", message="Tunnuksen tulee sisältää 1-15 merkkiä")
+
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+        if password1 != password2:
+            return render_template("error.html", message="Salasanat eivät täsmää, yritä uudelleen")
+        if password1 == "":
+            return render_template("error.html", message="Salasanakentät eivät voi olla tyhjiä")
+
+        customer_type = request.form["role"]
+        if customer_type not in ("1", "2"):
+            return render_template("error.html", message="Käyttäjätyyppiä ei ole valittu")
+
+        if users.register(username, password1, customer_type) is False:
+            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+        return redirect("/")
 
 @app.route("/hotel/<int:hotel_id>")
 def show_hotel(hotel_id):

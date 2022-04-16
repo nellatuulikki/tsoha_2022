@@ -1,0 +1,25 @@
+Rekisteröinti palveluun
+
+<form action="/register" method="post">
+    Tunnus: <br><input type="text" name="username" minlength="1" maxlength="20">
+    <p>
+    Salasana: <br><input type="password" name="password1">
+    <p>
+    Salasana uudestaan: <br><input type="password" name="password2">
+    <p>
+    Valitse käyttäjätyyppi
+    
+    Hotellipartneri pystyy listaamaan hotellinsa sovelukseen. Hotellipartnerin oikeuksilla ei voi tehdä varauksia hotelleihin.
+    Kuluttaja voi varata ja selailla muita hotelleita sovelluksessa. Kuluttajaoikeuksilla ei ole mahdollista listata hotellia sovellukseen.
+    
+    <select name="role">
+    <option value=1> Kuluttaja
+    <option value=2> Partneri
+    </select>
+    <p>
+    <input type="submit" value="Luo tunnus">
+    </form>
+    
+    <p>
+    <a href="/">Palaa etusivulle</a>
+    <a href="/login">Palaa kirjautumaan</a>
