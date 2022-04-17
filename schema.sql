@@ -1,8 +1,9 @@
 CREATE TABLE hotels (
     id SERIAL PRIMARY KEY,
-    hotel_name TEXT,
+    hotel_name TEXT UNIQUE,
     hotel_address TEXT,
-    stars INTEGER
+    stars INTEGER,
+    owner_id INTEGER REFERENCES customers
 );
 
 CREATE TABLE amenities (

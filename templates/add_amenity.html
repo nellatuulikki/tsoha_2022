@@ -1,6 +1,16 @@
-<form action="/send_1" method="POST">
-Hotellissa on seuraavat palvelut:
+Minkä hotellin tietoja haluat muokata?
 
+<form action="/select_hotel" method="POST">
+<select name="selected_hotel">
+{% for hotel in hotels %}
+<option value={{hotel.hotel_id}}> {{ hotel.hotel_name }}
+{% endfor %}
+</select>
+<input type="submit" value="Valitse hotelli">
+</form>
+
+
+<form action="/send_1" method="POST">
 Hotellissa on seuraavat palvelut:
 <input type="checkbox" name="hotel_amenity" value="spa"> Kylpylä
 <input type="checkbox" name="hotel_amenity" value="free_parking"> Ilmainen pysäköinti
@@ -26,6 +36,7 @@ Huoneissa on seuraavat mukavuudet
 
 Palvelussa olevat huoneet:
 
+
 Lisää huone:
 <form action="/send_3" method="POST">
 Huoneen kuvaus:
@@ -40,7 +51,6 @@ Huoneen hinta per yö:
 <input type="float" name="price">
 <input type="submit" value="Lisää huoneet">
 </form>
-
 
 <form action="/update_booking_calendar" method="POST">
 Lisää huonetyyppi varattavaksi seuraaville päiville:<br>

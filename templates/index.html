@@ -11,6 +11,10 @@ Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 {% endif %}
 <br>
 
+{% if session.user_role == 1 %}
+<a href="/bookings">Omat varaukset</a>
+{% endif %}
+
 
 <form action="/book_hotel" method="POST">
 Valitse tulo- ja lähtöpäivä:<br>
@@ -27,5 +31,7 @@ Asiakkaiden lukumäärä <input type="integer" name="customers">
 {% endfor %}
 </ul>
 
+{% if session.user_role == 2 %}
 <a href="/add_hotel">Lisää hotelli</a>
 <a href="/add_amenity">Lisää hotellille mukavuuksia</a>
+{% endif %}

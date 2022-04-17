@@ -5,6 +5,11 @@ def get_all_hotels():
     
     return db.session.execute(sql).fetchall()
 
+def get_hotels_by_owner_id(owner_id):
+    sql = "SELECT id, hotel_name FROM hotels where owner_id = :owner_id"
+    
+    return db.session.execute(sql, {"owner_id": owner_id}).fetchall()
+
 def get_all_amenities_by_hotel_id(hotel_id):
     sql = "SELECT hotel_name FROM hotels WHERE id= :hotel_id"
     
@@ -19,10 +24,10 @@ def get_amenities(hotel_id):
     sql = "SELECT amenity FROM amenities WHERE hotel_id= :hotel_id"
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()
 
-def add_hotel(hotel_name, hotel_address, stars):
+def add_hotel(hotel_name, hotel_address, stars, owner_id):
     try:
-        sql = "INSERT INTO hotels (hotel_name, hotel_address, stars) VALUES (:hotel_name, :hotel_address, :stars)"
-        db.session.execute(sql, {"hotel_name":hotel_name, "hotel_address": hotel_address, "stars":stars})
+        sql = "INSERT INTO hotels (hotel_name, hotel_address, stars, owner_id) VALUES (:hotel_name, :hotel_address, :stars, :owner_id)"
+        db.session.execute(sql, {"hotel_name":hotel_name, "hotel_address": hotel_address, "stars":stars, "owner_id":owner_id})
         db.session.commit()
 
         return True

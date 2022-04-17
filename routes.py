@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 from db import db
 import hotels
 import reservations
@@ -17,7 +17,7 @@ def add_hotel():
 
 @app.route("/add_amenity")
 def add_amenity():
-    return render_template("add_amenity.html")
+    return render_template("add_amenity.html", hotels=hotels.get_hotels_by_owner_id(users.user_id()))
 
 @app.route("/book_hotel", methods=["POST"])
 def show_available_hotels():
@@ -43,7 +43,7 @@ def show_available_rooms():
 
 @app.route("/bookings")
 def bookings():
-    reserved_rooms = reservations.get_reservations_by_customer_id(1)
+    reserved_rooms = reservations.get_reservations_by_customer_id(users.user_id())
     return render_template("bookings.html", reserved_rooms = reserved_rooms, new_booking = False)
 
 
@@ -64,13 +64,32 @@ def register():
         if password1 == "":
             return render_template("error.html", message="Salasanakentät eivät voi olla tyhjiä")
 
-        customer_type = request.form["role"]
-        if customer_type not in ("1", "2"):
+        role = request.form["role"]
+        if role not in ("1", "2"):
             return render_template("error.html", message="Käyttäjätyyppiä ei ole valittu")
 
-        if users.register(username, password1, customer_type) is False:
+        if users.register(username, password1, role) is False:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
         return redirect("/")
+
+
+@app.route("/login", methods=["get", "post"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if not users.login(username, password):
+            return render_template("error.html", message="Väärä tunnus tai salasana")
+        return redirect("/")
+
+@app.route("/logout")
+def logout():
+    users.logout()
+    return redirect("/")
 
 @app.route("/hotel/<int:hotel_id>")
 def show_hotel(hotel_id):
@@ -78,16 +97,16 @@ def show_hotel(hotel_id):
     amenities = hotels.get_amenities(hotel_id=hotel_id)
     return render_template("hotel.html", hotel_name = hotel_name[0], amenities = amenities)
 
-@app.route("/send", methods=["POST"])
-def send():
+@app.route("/create_hotel", methods=["POST"])
+def create_hotel():
     hotel_name = request.form["hotel_name"]
     hotel_address = request.form["hotel_address"]
     stars = request.form["stars"]
 
-    if hotels.add_hotel(hotel_name, hotel_address, stars):
+    if hotels.add_hotel(hotel_name, hotel_address, stars, users.user_id()):
         return redirect("/")
     else:
-        return render_template("database_change.html", message= 'Ei toimi')
+        return render_template("error.html", message= 'Ei toimi')
 
 @app.route("/send_1", methods=["POST"])
 def send_hotel_amenities():
@@ -139,8 +158,8 @@ def create_booking():
     guests = int(request.form["guests"])
 
 
-    if reservations.add_reservation(room_id, 1, check_in, check_out, guests):
+    if reservations.add_reservation(room_id, users.user_id(), check_in, check_out, guests):
         reservations.update_available_rooms(room_id, check_in)
-        return render_template("/bookings.html", reserved_rooms = reservations.get_reservations_by_customer_id(1), new_booking = True)
+        return render_template("/bookings.html", reserved_rooms = reservations.get_reservations_by_customer_id(users.user_id()), new_booking = True)
     else:
         return render_template("database_change.html", message= 'Ei toimi')
