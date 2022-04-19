@@ -1,3 +1,10 @@
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    username TEXT,
+    password TEXT,
+    role TEXT
+);
+
 CREATE TABLE hotels (
     id SERIAL PRIMARY KEY,
     hotel_name TEXT UNIQUE,
@@ -42,11 +49,5 @@ CREATE TABLE calendar (
     id SERIAL PRIMARY KEY,
     reservation_date DATE,
     room_id INTEGER REFERENCES rooms,
-    available_rooms INTEGER,
-);
-
-CREATE TABLE customers (
-    id SERIAL PRIMARY KEY,
-    username TEXT,
-    password TEXT
+    available_rooms INTEGER
 );
