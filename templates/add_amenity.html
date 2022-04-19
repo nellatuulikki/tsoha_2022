@@ -1,17 +1,28 @@
 Minkä hotellin tietoja haluat muokata?
 
 <form action="/select_hotel" method="POST">
-<select name="selected_hotel">
+<select name="select_hotel">
 {% for hotel in hotels %}
-<option value={{hotel.hotel_id}}> {{ hotel.hotel_name }}
+<option value={{hotel.id}}> {{ hotel.hotel_name }}
 {% endfor %}
 </select>
 <input type="submit" value="Valitse hotelli">
 </form>
 
+{% if selected_hotel != None %}
+Voit muokata hotellia {{selected_hotel}}
 
-<form action="/send_1" method="POST">
-Hotellissa on seuraavat palvelut:
+Hotellissa on seuraavat huoneet: <br>
+{% for room in rooms %}
+<li>Huoneid: {{ room.id }} Huonekuvaus: {{ room.room_description }}</li>
+{% endfor %}
+
+Hotellissa on tällä hetkellä seuraavat palvelut:<br>
+
+Hotellin huoneissa on seuraavat mukavuudet:<br>
+
+<form action="/add_hotel_amenities" method="POST">
+Lisää hotelliin seuraavia palveluita:<br>
 <input type="checkbox" name="hotel_amenity" value="spa"> Kylpylä
 <input type="checkbox" name="hotel_amenity" value="free_parking"> Ilmainen pysäköinti
 <input type="checkbox" name="hotel_amenity" value="restaurant"> Ravintola
@@ -20,11 +31,12 @@ Hotellissa on seuraavat palvelut:
 <input type="checkbox" name="hotel_amenity" value="daily_cleaning"> Päivittäinen siivous
 <input type="checkbox" name="hotel_amenity" value="24_7_front_desk"> 24/7 vastaanotto
 <input type="checkbox" name="hotel_amenity" value="free_wifi"> Ilmainen Wi-Fi
+<input type="hidden" name="hotel_id" value="{{selected_hotel}}">
 <input type="submit" value="Tallenna">
 </form>
-
+<br>
 <form action="/send_2" method="POST">
-Huoneissa on seuraavat mukavuudet
+Lisää huoneisiin seuraavat mukavuudet: <br>
 <input type="checkbox" name="room_amenity" value="private_bathroom"> Oma kylpyhuone
 <input type="checkbox" name="room_amenity" value="minibar"> Minibaari
 <input type="checkbox" name="room_amenity" value="bathrobes"> Kylpytakit
@@ -34,11 +46,8 @@ Huoneissa on seuraavat mukavuudet
 <input type="submit" value="Tallenna">
 </form>
 
-Palvelussa olevat huoneet:
-
-
-Lisää huone:
-<form action="/send_3" method="POST">
+Lisää huone: <br>
+<form action="/create_room" method="POST">
 Huoneen kuvaus:
 <input type="Text" name="room_description">
 Asiakasmäärä:
@@ -49,14 +58,19 @@ Huoneiden lukumäärä:
 <input type="text" name="number_of_rooms">
 Huoneen hinta per yö:
 <input type="float" name="price">
+<input type="hidden" name="hotel_id" value="{{selected_hotel}}">
 <input type="submit" value="Lisää huoneet">
 </form>
 
 <form action="/update_booking_calendar" method="POST">
 Lisää huonetyyppi varattavaksi seuraaville päiville:<br>
+
 Huoneid <input type="text" name="room_id">
 Aloituspäivä <input type="text" name="start_date">
 Lopetuspäivämäärä <input type="text" name="end_date">
 <input type="submit" value="Lisää varattavat päivät">
 </form>
+
+{% endif %}
+
     

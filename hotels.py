@@ -7,11 +7,11 @@ def get_all_hotels():
 
 def get_hotels_by_owner_id(owner_id):
     sql = "SELECT id, hotel_name FROM hotels where owner_id = :owner_id"
-    
+    print(db.session.execute(sql, {"owner_id": owner_id}).fetchall())
     return db.session.execute(sql, {"owner_id": owner_id}).fetchall()
 
 def get_all_amenities_by_hotel_id(hotel_id):
-    sql = "SELECT hotel_name FROM hotels WHERE id= :hotel_id"
+    sql = "SELECT id, hotel_name FROM hotels WHERE id= :hotel_id"
     
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()
 
@@ -21,7 +21,7 @@ def get_hotel_name(hotel_id):
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()
 
 def get_amenities(hotel_id):
-    sql = "SELECT amenity FROM amenities WHERE hotel_id= :hotel_id"
+    sql = "SELECT DISTINCT amenity FROM amenities WHERE hotel_id= :hotel_id"
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()
 
 def add_hotel(hotel_name, hotel_address, stars, owner_id):
@@ -35,10 +35,10 @@ def add_hotel(hotel_name, hotel_address, stars, owner_id):
         print(e)
         return False
 
-def add_amenity(amenities, hotel_id = 1):
+def add_amenity(amenities, hotel_id):
     try:
         for amenity in amenities:
-            sql = "INSERT INTO amenities (hotel_id, amenity) VALUES (:hotel_id, :amenity)"
+            sql = "INSERT IGNORE INTO amenities (hotel_id, amenity) VALUES (:hotel_id, :amenity)"
             db.session.execute(sql, {"hotel_id":hotel_id, "amenity": amenity})
             db.session.commit()
 
