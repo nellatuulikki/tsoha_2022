@@ -33,7 +33,8 @@ CREATE TABLE rooms (
     room_description TEXT,
     guests INTEGER,
     square_meters INTEGER,
-    number_of_rooms INTEGER
+    number_of_rooms INTEGER,
+    price FLOAT
 );
 
 CREATE TABLE reservations (
