@@ -26,7 +26,6 @@ Bottleneck==1.2.1
 breezy==3.0.2
 CacheControl==0.12.6
 cachetools==4.0.0
-cajarename==19.7.15
 cbor==1.0.0
 cdo==1.5.3
 certifi==2019.11.28
