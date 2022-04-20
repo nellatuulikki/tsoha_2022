@@ -38,7 +38,7 @@ def add_hotel(hotel_name, hotel_address, stars, owner_id):
 def add_amenity(amenities, hotel_id):
     try:
         for amenity in amenities:
-            sql = "INSERT IGNORE INTO amenities (hotel_id, amenity) VALUES (:hotel_id, :amenity)"
+            sql = "INSERT INTO amenities (hotel_id, amenity) VALUES (:hotel_id, :amenity)"
             db.session.execute(sql, {"hotel_id":hotel_id, "amenity": amenity})
             db.session.commit()
 
