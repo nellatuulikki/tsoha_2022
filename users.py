@@ -6,19 +6,19 @@ from werkzeug.security import check_password_hash,  generate_password_hash
 def register(name, password, role):
     hash_value = generate_password_hash(password)
     try:
-        sql = """INSERT INTO users (name, password, role)
+        sql = """INSERT INTO users (username, password, role)
                  VALUES (:name, :password, :role)"""
         db.session.execute(sql, {"name":name, "password":hash_value, "role":role})
         db.session.commit()
     except Exception as e:
         print(e)
-        return e
+        return False
 
     return login(name, password)
 
-def login(name, password):
-    sql = "SELECT password, id, role FROM users WHERE name=:name"
-    result = db.session.execute(sql, {"name":name})
+def login(username, password):
+    sql = "SELECT password, id, role FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if not user:
         return False
@@ -27,7 +27,7 @@ def login(name, password):
     print(user[1])
     print(user)
     session["user_id"] = user[1]
-    session["user_name"] = name
+    session["user_name"] = username
     session["user_role"] = user[2]
     session["csrf_token"] = os.urandom(16).hex()
     
