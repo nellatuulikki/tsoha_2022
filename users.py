@@ -12,7 +12,7 @@ def register(name, password, role):
         db.session.commit()
     except Exception as e:
         print(e)
-        return False
+        return e
 
     return login(name, password)
 
