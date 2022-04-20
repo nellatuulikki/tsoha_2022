@@ -11,6 +11,8 @@ Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 {% endif %}
 <br>
 
+{{ session.user_role }}
+
 {% if session.user_role == 1 %}
 <a href="/bookings">Omat varaukset</a>
 {% endif %}
