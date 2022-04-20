@@ -44,7 +44,7 @@ def add_new_dates_to_calendar(start_date, end_date, room_id, available_rooms):
 
     try:
         while reservation_date <= end_date:
-            sql = """INSERT IGNORE INTO calendar (reservation_date, room_id, available_rooms) 
+            sql = """INSERT INTO calendar (reservation_date, room_id, available_rooms) 
                     VALUES (:reservation_date, :room_id, :available_rooms)"""
 
             db.session.execute(sql, {"reservation_date":reservation_date, "room_id":room_id, "available_rooms":available_rooms})
