@@ -15,4 +15,5 @@ Hotellisovelluksessa on mahdollista tehdä varauksia hotellihuoneisiin tietyn al
 - Hotellin asiakkaat voivat tarkastella aikaisempia ja tulevia varauksiaan.(Tehty)
 - Hotellin työntekijät voivat tarkastella aikaisempia ja tulevia varauksia hotellissa. (Ei tehty)
 
+## Sovelluksen käyttö
 Sovellusta voi testata [Herokussa](https://tsoha-hotels.herokuapp.com/)
