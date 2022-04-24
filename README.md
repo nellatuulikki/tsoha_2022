@@ -1,6 +1,6 @@
 # Hotellisovellus
 
-Välipalatus 2:
+## Välipalatus 3
 - Sovellus toimii jo suht hyvin, mutta sovelluksessa joitain bugeja etenkin tietokantojen toiminnassa (duplikaatit mahdollisia) ja sivujen tyyli on vielä pahasti kesken. Myös jossain tekstikohdissa pientä epäloogisuutta (Esimerkiksi esitetty huoneen numero vaikka pitäisi lukea huoneen nimi). 
 
 Hotellisovelluksessa on mahdollista tehdä varauksia hotellihuoneisiin tietyn alueen hotelleista ja arvioida niitä. Sovelluksessa on kolmenlaisia käyttäjiä: ylläpitäjä, ja peruskäyttäjä, joka voi olla joko hotellin työntekijä tai asiakas.
