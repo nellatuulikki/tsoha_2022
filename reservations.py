@@ -50,7 +50,8 @@ def add_new_dates_to_calendar(start_date, end_date, room_id, available_rooms):
             db.session.execute(sql, {"reservation_date":reservation_date, "room_id":room_id, "available_rooms":available_rooms})
             db.session.commit()
             reservation_date = reservation_date + timedelta(days=1)
-            print(reservation_date)
+
+        update_available_rooms(room_id, start_date)
         return True
 
     except Exception as e:
