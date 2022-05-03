@@ -18,9 +18,9 @@ Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 
 <form action="/book_hotel" method="POST">
 Valitse tulo- ja lähtöpäivä:<br>
-Tulopäivä <input type="text" name="check_in">
-Lähtöpäivä <input type="text" name="check_out">
-Asiakkaiden lukumäärä <input type="integer" name="customers">
+Tulopäivä <input type="date" name="check_in" required>
+Lähtöpäivä <input type="date" name="check_out" required>
+Asiakkaiden lukumäärä <input type="integer" name="customers" required>
 <input type="submit" value="Lähetä">
 </form>
 

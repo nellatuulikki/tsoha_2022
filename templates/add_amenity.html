@@ -52,9 +52,9 @@ Huoneen kuvaus:
 Asiakasmäärä:
 <input type="integer" name="guests"><br>
 Hotellihuoneen pinta-ala:
-<input type="text" name="square_meters"><br>
+<input type="integer" name="square_meters"><br>
 Huoneiden lukumäärä:
-<input type="text" name="number_of_rooms"><br>
+<input type="integer" name="number_of_rooms"><br>
 Huoneen hinta per yö:
 <input type="float" name="price"><br>
 <input type="hidden" name="hotel_id" value="{{selected_hotel}}">
@@ -66,8 +66,8 @@ Huoneen hinta per yö:
 Lisää huonetyyppi varattavaksi seuraaville päiville:<br>
 
 Huoneid <input type="text" name="room_id"><br>
-Aloituspäivä <input type="text" name="start_date"><br>
-Lopetuspäivämäärä <input type="text" name="end_date"><br>
+Aloituspäivä <input type="date" name="start_date"><br>
+Lopetuspäivämäärä <input type="date" name="end_date"><br>
 <br>
 <input type="submit" value="Lisää varattavat päivät">
 </form>
