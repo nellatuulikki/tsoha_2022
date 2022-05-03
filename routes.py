@@ -30,7 +30,7 @@ def add_hotel_amenities():
     if hotels.add_amenity(request.form.getlist("hotel_amenity"), hotel_id=request.form["hotel_id"]):
         return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotel_id,
+                            selected_hotel = hotels.get_hotel_name(hotel_id),
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id)
                             )
@@ -43,7 +43,7 @@ def select_hotel():
     
     return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotel_id,
+                            selected_hotel = hotels.get_hotel_name(hotel_id),
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id)
                             )
@@ -60,7 +60,7 @@ def create_room():
     if hotels.add_room(hotel_id, description, guests, square_meters, number_of_rooms, price):
         return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotel_id,
+                            selected_hotel = hotels.get_hotel_name(hotel_id),
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id))
     else:
@@ -168,9 +168,14 @@ def update_booking_calendar():
     room_id = request.form["room_id"]
     start_date = datetime.strptime(request.form["start_date"], "%Y-%m-%d")
     end_date = datetime.strptime(request.form["end_date"], "%Y-%m-%d")
+    hotel_id = request.form["hotel_id"]
 
     if reservations.add_new_dates_to_calendar(start_date, end_date, room_id, hotels.get_room_guest_number(room_id)[0]):
-        return redirect("/")
+        return render_template("/add_amenity.html",
+                            hotels = hotels.get_hotels_by_owner_id(users.user_id()),
+                            selected_hotel = hotels.get_hotel_name(hotel_id),
+                            amenities=hotels.get_amenities(hotel_id),
+                            rooms=hotels.get_rooms(hotel_id))
     else:
         return render_template("error.html", message= 'Ei toimi')
 

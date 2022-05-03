@@ -7,7 +7,6 @@ def get_all_hotels():
 
 def get_hotels_by_owner_id(owner_id):
     sql = "SELECT id, hotel_name FROM hotels where owner_id = :owner_id"
-    print(db.session.execute(sql, {"owner_id": owner_id}).fetchall())
     return db.session.execute(sql, {"owner_id": owner_id}).fetchall()
 
 def get_all_amenities_by_hotel_id(hotel_id):
@@ -16,7 +15,7 @@ def get_all_amenities_by_hotel_id(hotel_id):
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()
 
 def get_hotel_name(hotel_id):
-    sql = "SELECT hotel_name FROM hotels WHERE id= :hotel_id"
+    sql = "SELECT id, hotel_name FROM hotels WHERE id= :hotel_id"
     
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()
 

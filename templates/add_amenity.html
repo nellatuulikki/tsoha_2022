@@ -10,12 +10,19 @@ Minkä hotellin tietoja haluat muokata?
 </form>
 
 {% if selected_hotel != None %}
-Voit muokata hotellin {{selected_hotel}} tietoja<br>
+Voit muokata hotellin {{selected_hotel.hotel_name }} tietoja<br>
 <br>
 
 Hotellissa on seuraavat huoneet: <br>
 {% for room in rooms %}
-<li>Huoneid: {{ room.id }} Huonekuvaus: {{ room.room_description }}</li>
+<li>
+Huoneid: {{ room.id }}
+Huonekuvaus: {{ room.room_description }}
+Asiakasmäärä: {{ room.guest}}
+Pinta-ala: {{ room.square_meters}}
+Lukumäärä: {{ room.number_of_rooms}}
+Hinta per yö: {{ room.price}}
+</li>
 {% endfor %}
 <br>
 
@@ -41,7 +48,7 @@ Lisää hotelliin seuraavia palveluita:<br>
 <input type="checkbox" name="hotel_amenity" value="Tohvelit"> Tohvelit
 <input type="checkbox" name="hotel_amenity" value="Untuvapeite"> Untuvapeite
 <input type="checkbox" name="hotel_amenity" value="Hiustenkuivaaja"> Hiustenkuivaaja
-<input type="hidden" name="hotel_id" value="{{selected_hotel}}">
+<input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
 <input type="submit" value="Tallenna">
 </form>
 
@@ -57,18 +64,23 @@ Huoneiden lukumäärä:
 <input type="integer" name="number_of_rooms"><br>
 Huoneen hinta per yö:
 <input type="float" name="price"><br>
-<input type="hidden" name="hotel_id" value="{{selected_hotel}}">
+<input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
 <br>
 <input type="submit" value="Lisää huoneet">
 </form>
 
 <form action="/update_booking_calendar" method="POST">
-Lisää huonetyyppi varattavaksi seuraaville päiville:<br>
-
-Huoneid <input type="text" name="room_id"><br>
+Lisää huoneita varattavaksi seuraaville päiville:
+Huoneen nimi <select name="room_id">
+{% for room in rooms %}
+<option value={{room.id}}> {{ room.room_description }}
+{% endfor %}
+</select>
+<br>
 Aloituspäivä <input type="date" name="start_date"><br>
 Lopetuspäivämäärä <input type="date" name="end_date"><br>
 <br>
+<input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
 <input type="submit" value="Lisää varattavat päivät">
 </form>
 
