@@ -74,7 +74,11 @@ def show_available_hotels():
 
     available_hotels = reservations.get_available_hotels(check_in, customers)
 
-    return render_template("book_hotel.html", check_in=check_in, check_out=check_out, customers=customers, available_hotels = available_hotels)
+    return render_template("book_hotel.html",
+                            check_in=check_in,
+                            check_out=check_out,
+                            customers=customers,
+                            available_hotels = available_hotels)
 
 @app.route("/hotel_rooms", methods=["POST"])
 def show_available_rooms():
@@ -82,7 +86,6 @@ def show_available_rooms():
     check_out = str(request.form["check_out"])
     guests = request.form["guests"]
     hotel_id = request.form["hotel_id"]
-
     available_rooms = reservations.get_available_rooms(hotel_id=hotel_id, reservation_date=check_in)
     hotel_name = hotels.get_hotel_name(hotel_id=hotel_id)
 
@@ -91,12 +94,36 @@ def show_available_rooms():
                             available_rooms = available_rooms,
                             check_in = check_in,
                             check_out=check_out,
-                            guests=guests)
+                            guests=guests,
+                            hotel_id=hotel_id)
 
 @app.route("/bookings")
 def bookings():
     reserved_rooms = reservations.get_reservations_by_customer_id(users.user_id())
-    return render_template("bookings.html", reserved_rooms = reserved_rooms, new_booking = False)
+    return render_template("bookings.html",
+                            reserved_rooms = reserved_rooms,
+                            new_booking = False,
+                            number_of_reservations= len(reserved_rooms))
+
+@app.route("/cancel_reservation", methods=["POST"])
+def cancel_reservation():
+    reservation_id = request.form["reservation_id"]
+    check_in = request.form["check_in"]
+    check_out = request.form["check_out"]
+    room_id = request.form["room_id"]
+
+    try:
+        reservations.cancel_reservation(reservation_id)
+        reservations.add_available_rooms(room_id, check_in, check_out)
+    except:
+        return render_template("error.html", message= 'Ei toimi')
+        
+    reserved_rooms = reservations.get_reservations_by_customer_id(users.user_id())
+    return render_template("bookings.html",
+                            reserved_rooms = reserved_rooms,
+                            new_booking = False,
+                            number_of_reservations= len(reserved_rooms))
+
 
 
 @app.route("/register", methods=["get", "post"])
@@ -185,9 +212,9 @@ def create_booking():
     check_in = str(request.form["check_in"])
     check_out = str(request.form["check_out"])
     guests = int(request.form["guests"])
+    hotel_id = request.form["hotel_id"]
 
-
-    if reservations.add_reservation(room_id, users.user_id(), check_in, check_out, guests):
+    if reservations.add_reservation(room_id, users.user_id(), check_in, check_out, guests, hotel_id):
         return render_template("/bookings.html", reserved_rooms = reservations.get_reservations_by_customer_id(users.user_id()), new_booking = True)
     else:
         return render_template("error.html", message= 'Ei toimi')

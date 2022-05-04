@@ -10,7 +10,7 @@ CREATE TABLE hotels (
     hotel_name TEXT UNIQUE,
     hotel_address TEXT,
     stars INTEGER,
-    owner_id INTEGER REFERENCES customers
+    owner_id INTEGER REFERENCES users
 );
 
 CREATE TABLE amenities (
@@ -40,7 +40,8 @@ CREATE TABLE rooms (
 CREATE TABLE reservations (
     reservation_id SERIAL PRIMARY KEY,
     room_id INTEGER REFERENCES rooms,
-    customer_id INTEGER REFERENCES customers,
+    hotel_id INTEGER REFERENCES hotels,
+    customer_id INTEGER REFERENCES users,
     check_in DATE,
     check_out DATE,
     guests INTEGER
