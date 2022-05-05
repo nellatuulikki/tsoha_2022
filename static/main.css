@@ -1,0 +1,43 @@
+body {
+    margin: auto;
+    font-family: 'Georgia';
+    max-width: 60em;
+}
+
+.header {
+    padding: 60px;
+    text-align: center;
+    background: #8fb8f5;
+    font-size: 2em;
+    color: #321b85;
+}
+
+.user{
+    box-sizing: border-box;
+    width: 25%;
+    height: 1000px;
+    color: #321b85;
+    font-size: 1.0em;
+    float: right;
+    background: #8fb8f5;
+}
+
+li {
+    list-style-type: none;
+    font-size: 1.5em;
+}
+
+ul li a{
+    text-decoration: none;
+}
+
+input {
+    padding: 0 .5em;
+    max-width: 15em;
+    grid-template-columns: 5em 10em;
+    grid-row-gap: .3em;
+    margin: auto 0;
+    color: #645697;
+    border-radius: 25px;
+    border: 2px solid #645697;
+}

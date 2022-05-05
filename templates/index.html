@@ -1,37 +1,21 @@
-<title>Etusivu</title>
-<h1>Etusivu</h1>
+{% extends "layout.html" %}
+{% block content %}
+
 <b>Tervetuloa varaamaan hotellia!</b>
-<br>
-
-{% if session.user_id %}
-Tervetuloa  <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<a href="/login">Kirjaudu sisään</a>
-<a href="/register">Luo tunnus</a>
-{% endif %}
-<br>
-
-{% if session.user_role == 1 %}
-<a href="/bookings">Omat varaukset</a>
-{% endif %}
-
 
 <form action="/book_hotel" method="POST">
-Valitse tulo- ja lähtöpäivä:<br>
-Tulopäivä <input type="date" name="check_in" required>
-Lähtöpäivä <input type="date" name="check_out" required>
-Asiakkaiden lukumäärä <input type="integer" name="customers" required>
-<input type="submit" value="Lähetä">
+    <h4>Valitse tulo- ja lähtöpäivä:</h4>
+    <b>Tulopäivä</b> <input type="date" name="check_in" required>
+    <b>Lähtöpäivä</b> <input type="date" name="check_out" required>
+    <b>Asiakkaiden lukumääärä</b> <input type="integer" name="customers" required>
+    <input type="submit" value="Lähetä">
 </form>
 
 <b>Varattavissa ovat seuraavat hotellit</b>
 <ul>
-{% for hotel in hotels %}
-<li><a href="/hotel/{{ hotel.id }}">{{ hotel.hotel_name }}</a>
-{% endfor %}
+    {% for hotel in hotels %}
+    <li><a href="/hotel/{{ hotel.id }}">{{ hotel.hotel_name }}</a></li>
+    {% endfor %}
 </ul>
 
-{% if session.user_role == 2 %}
-<a href="/add_hotel">Lisää hotelli</a>
-<a href="/add_amenity">Lisää hotellille mukavuuksia</a>
-{% endif %}
+{% endblock %}

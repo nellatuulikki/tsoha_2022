@@ -1,0 +1,31 @@
+<!doctype html>
+<link rel="stylesheet" href="/static/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Book-A-Room</title>
+
+<body>
+    <div class="header">
+        <h1>Book-A-Room</h1>
+    </div>
+
+    <div class="user">
+        {% if session.user_id %}
+        Olet kirjautuneena tunnuksella <b>{{ session.user_name }}</b>.<br> 
+        <a href="/logout">Kirjaudu ulos</a><br>
+        {% else %}<br>
+        <a href="/login">Kirjaudu sisään</a><br>
+        <a href="/register">Luo tunnus</a><br>
+        {% endif %}
+
+        {% if session.user_role == 1 %}
+        <a href="/bookings">Omat varaukset</a>
+        {% endif %}
+
+        {% if session.user_role == 2 %}
+        <a href="/add_hotel">Lisää hotelli</a><br>
+        <a href="/add_amenity">Lisää hotellille mukavuuksia</a><br>
+        {% endif %}
+    </div>
+    {% block content %}{% endblock %}
+</body>
