@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h3>Olet lisännyt sovellukseen seuraavat hotellit</h3>
+
+{% for hotel in hotels %}
+<option value={{hotel.id}}> {{ hotel.hotel_name }}
+{% endfor %}
+
+<h3>Lisää hotelli</h3>
+
+<form action="/create_hotel" method="POST">
+    Nimi:
+    <input type="text" name="hotel_name">
+    <br>Osoite:
+    <input type="text" name="hotel_address">
+    <br>Tähdet:
+    <input type="text" name="stars">
+    <br>
+    <input type="submit" value="Lisää hotelli">
+    </form>
+
+<h3>Poista hotelli</h3>
+
+<form action="/delete_hotel" method="POST">
+    <select name="hotel_id">
+    {% for hotel in hotels %}
+    <option value={{hotel.id}}> {{ hotel.hotel_name }}
+    {% endfor %}
+    </select>
+    <input type="submit" value="Poista hotelli">
+</form>
+
+{% endblock %}

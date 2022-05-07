@@ -11,9 +11,10 @@ def index():
     all_hotels = hotels.get_all_hotels()
     return render_template("index.html", hotels=all_hotels)
 
-@app.route("/add_hotel")
-def add_hotel():
-    return render_template("add_hotel.html")
+@app.route("/modify_hotels")
+def modify_hotels():
+    return render_template("modify_hotels.html",
+                            hotels = hotels.get_hotels_by_owner_id(users.user_id()))
 
 @app.route("/add_amenity")
 def add_amenity():
@@ -30,7 +31,7 @@ def add_hotel_amenities():
     if hotels.add_amenity(request.form.getlist("hotel_amenity"), hotel_id=request.form["hotel_id"]):
         return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotels.get_hotel_name(hotel_id),
+                            selected_hotel = hotels.get_hotel_information(hotel_id)[1],
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id)
                             )
@@ -43,7 +44,7 @@ def select_hotel():
     
     return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotels.get_hotel_name(hotel_id),
+                            selected_hotel = hotels.get_hotel_information(hotel_id)[1],
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id)
                             )
@@ -60,7 +61,7 @@ def create_room():
     if hotels.add_room(hotel_id, description, guests, square_meters, number_of_rooms, price):
         return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotels.get_hotel_name(hotel_id),
+                            selected_hotel = hotels.get_hotel_information(hotel_id)[1],
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id))
     else:
@@ -68,9 +69,13 @@ def create_room():
 
 @app.route("/book_hotel", methods=["POST"])
 def show_available_hotels():
+    isinstance(x, datetime.date)
     check_in = request.form["check_in"]
     check_out = request.form["check_out"]
     customers = request.form["customers"]
+
+    if not isinstance(check_in, datetime.date) or not isinstance(check_out, datetime.date):
+        return render_template("error.html", message= 'Anna sovellukselle päivämäärät')
 
     available_hotels = reservations.get_available_hotels(check_in, customers)
 
@@ -87,7 +92,7 @@ def show_available_rooms():
     guests = request.form["guests"]
     hotel_id = request.form["hotel_id"]
     available_rooms = reservations.get_available_rooms(hotel_id=hotel_id, reservation_date=check_in)
-    hotel_name = hotels.get_hotel_name(hotel_id=hotel_id)
+    hotel_name = hotels.get_hotel_information(hotel_id)[1]
 
     return render_template("hotel_rooms.html",
                             hotel_name = hotel_name[0],
@@ -172,11 +177,13 @@ def logout():
 
 @app.route("/hotel/<int:hotel_id>")
 def show_hotel(hotel_id):
-    hotel_name = hotels.get_hotel_name(hotel_id=hotel_id)
+    hotel_name = hotels.get_hotel_information(hotel_id)[1]
     amenities = hotels.get_amenities(hotel_id=hotel_id)
+    rooms = hotels.get_rooms(hotel_id=hotel_id)
     
     return render_template("hotel.html",
-                            hotel_name = hotel_name[0],
+                            hotel_name = hotel_name,
+                            rooms = rooms,
                             amenities = amenities)
 
 @app.route("/create_hotel", methods=["POST"])
@@ -186,6 +193,15 @@ def create_hotel():
     stars = request.form["stars"]
 
     if hotels.add_hotel(hotel_name, hotel_address, stars, users.user_id()):
+        return redirect("/")
+    else:
+        return render_template("error.html", message= 'Ei toimi')
+
+@app.route("/delete_hotel", methods=["POST"])
+def delete_hotel():
+    hotel_id = request.form["hotel_id"]
+
+    if hotels.delete_hotel(hotel_id):
         return redirect("/")
     else:
         return render_template("error.html", message= 'Ei toimi')
@@ -200,7 +216,7 @@ def update_booking_calendar():
     if reservations.add_new_dates_to_calendar(start_date, end_date, room_id, hotels.get_room_guest_number(room_id)[0]):
         return render_template("/add_amenity.html",
                             hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotels.get_hotel_name(hotel_id),
+                            selected_hotel = hotels.get_hotel_information(hotel_id)[1],
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id))
     else:

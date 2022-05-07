@@ -1,15 +1,20 @@
-Hotellit. joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle
+{% extends "layout.html" %}
+{% block content %}
 
-<b>Varattavissa ovat seuraavat hotellit</b>
+Hotellit, joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle
+
 <ul>
 {% for hotel in available_hotels %}
-<form action="/hotel_rooms" method="POST">
-<input type="hidden" name="check_in" value= {{check_in}}>
-<input type="hidden" name="check_out" value= {{check_out}}> 
-<input type="hidden" name="hotel_id" value= {{hotel.hotel_id}}> 
-<input type="hidden" name="guests" value= {{customers}}>
-<button type="submit"> {{ hotel.hotel_name }}</button>
-</form>
+    <form action="/hotel_rooms" method="POST">
+        <input type="hidden" name="check_in" value= {{check_in}}>
+        <input type="hidden" name="check_out" value= {{check_out}}> 
+        <input type="hidden" name="hotel_id" value= {{hotel.hotel_id}}> 
+        <input type="hidden" name="guests" value= {{customers}}>
+        <button type="submit"> {{ hotel.hotel_name }}</button>
+    </form>
 {% endfor %}
 </ul>
 
+<a href="/">Palaa etusivulle</a>
+
+{% endblock %}

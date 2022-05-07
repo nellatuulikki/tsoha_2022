@@ -1,20 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+
 {% if new_booking == True %}
 Uusi varaus tehty!<br>
 <br>
 {% endif %}
 
-Sinulta löytyy yhteensä {{ number_of_reservations }} varausta <br>
+Sinulta löytyy yhteensä {{ number_of_reservations }} varausta 
+<br>
 
 {% for room in reserved_rooms %}
-Varausnumero {{ room.reservation_id}} Huoneessa {{ room.room_id}} päiville {{ room.check_in}} {{ room.check_out}} {{ room.guests}} asiakkaalle<br>
-<form action="/cancel_reservation" method="POST">
-<input type="hidden" name="reservation_id" value="{{ room.reservation_id }}">
-<input type="hidden" name="check_in" value="{{ room.check_in }}">
-<input type="hidden" name="check_out" value="{{ room.check_out }}">
-<input type="hidden" name="room_id" value="{{ room.room_id }}">
-<input type="submit" value="Poista varaus">
-</form>
-<br>
+    Varausnumero {{ room.reservation_id}} Huoneessa {{ room.room_id}} päiville {{ room.check_in}} {{ room.check_out}} {{ room.guests}} asiakkaalle
+    <br>
+    <form action="/cancel_reservation" method="POST">
+        <input type="hidden" name="reservation_id" value="{{ room.reservation_id }}">
+        <input type="hidden" name="check_in" value="{{ room.check_in }}">
+        <input type="hidden" name="check_out" value="{{ room.check_out }}">
+        <input type="hidden" name="room_id" value="{{ room.room_id }}">
+        <input type="submit" value="Poista varaus">
+    </form>
+    <br>
 {% endfor %}
 
 <a href="/">Palaa etusivulle</a>
+{% endblock %}

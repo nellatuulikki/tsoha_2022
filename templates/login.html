@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block content %}
+
 <h2>Kirjaudu sisään</h2>
 <form action="/login" method="post">
 Käyttäjätunnus: <br><input type="text" name="username">
@@ -7,3 +10,5 @@ Salasana: <br><input type="password" name="password">
 <input type="submit" value="Kirjaudu">
 </form>
 Jos et ole tehnyt vielä tunnusta, sen voi luoda <a href="/register">tästä</a>
+<a href="/">Palaa etusivulle</a>
+{% endblock %}

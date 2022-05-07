@@ -1,20 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<b>Tervetuloa varaamaan hotellia!</b>
-
+<div class="get_dates">
 <form action="/book_hotel" method="POST">
-    <h4>Valitse tulo- ja lähtöpäivä:</h4>
+    <h2>Tervetuloa varaamaan hotellia! Valitse tulo- ja lähtöpäivä</h2>
     <b>Tulopäivä</b> <input type="date" name="check_in" required>
     <b>Lähtöpäivä</b> <input type="date" name="check_out" required>
     <b>Asiakkaiden lukumääärä</b> <input type="integer" name="customers" required>
     <input type="submit" value="Lähetä">
 </form>
+</div>
 
 <b>Varattavissa ovat seuraavat hotellit</b>
 <ul>
     {% for hotel in hotels %}
-    <li><a href="/hotel/{{ hotel.id }}">{{ hotel.hotel_name }}</a></li>
+    <div class="hotel"> 
+       <li><a href="/hotel/{{ hotel.id }}">{{ hotel.hotel_name }}</a></li>
+    </div>
     {% endfor %}
 </ul>
 

@@ -13,27 +13,39 @@ body {
 }
 
 .user{
+    width: 100%;
     box-sizing: border-box;
-    width: 25%;
-    height: 1000px;
-    color: #321b85;
     font-size: 1.0em;
     float: right;
-    background: #8fb8f5;
 }
 
 li {
     list-style-type: none;
-    font-size: 1.5em;
+    font-size: 1.1em;
 }
 
 ul li a{
     text-decoration: none;
 }
 
+.get_dates{
+    padding: 0.5em 0.5em;
+    text-align: center;
+    border-radius: 25px;
+    border: 2px solid #645697;
+}
+
+.hotel{
+    padding: 1em 1em;
+    max-width: 12em;
+    border-radius: 25px;
+    border: 2px solid #645697;
+    background: #8fb8f5;
+}
+
 input {
     padding: 0 .5em;
-    max-width: 15em;
+    max-width: 9em;
     grid-template-columns: 5em 10em;
     grid-row-gap: .3em;
     margin: auto 0;

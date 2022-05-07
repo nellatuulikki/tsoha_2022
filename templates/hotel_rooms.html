@@ -1,25 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
 Hotellissa {{ hotel_name }} on seuraavia vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ guests }} asiakkaalle <br>
 <br>
 
 <b>Varattavissa ovat seuraavat huoneet</b>
 <ul>
 {% for room in available_rooms %}
-<form action="/create_booking" method="POST">
-<li> {{ room.room_description }}
-<li> Vuodepaikkoja on {{ room.guests }}
-<li> Huoneessa on {{ room.square_meters }} neliömetriä
-    
-{% if session.user_role == 1 %}
-<input type="hidden" name="room_id" value= {{room.id}}> 
-<input type="hidden" name="check_in" value= {{check_in}}>
-<input type="hidden" name="check_out" value= {{check_out}}> 
-<input type="hidden" name="guests" value= {{guests}}>
-<input type="hidden" name="hotel_id" value= {{hotel_id}}>
-<input type="submit" value="Varaa Huone">
-{% endif %}
-</form>
-
+    <form action="/create_booking" method="POST">
+        <li> {{ room.room_description }}
+        <li> Vuodepaikkoja on {{ room.guests }}
+        <li> Huoneessa on {{ room.square_meters }} neliömetriä
+            
+        {% if session.user_role == 1 %}
+            <input type="hidden" name="room_id" value= {{room.id}}> 
+            <input type="hidden" name="check_in" value= {{check_in}}>
+            <input type="hidden" name="check_out" value= {{check_out}}> 
+            <input type="hidden" name="guests" value= {{guests}}>
+            <input type="hidden" name="hotel_id" value= {{hotel_id}}>
+            <input type="submit" value="Varaa Huone">
+        {% endif %}
+    </form>
 {% endfor %}
 </ul>
 
 <a href="/">Palaa etusivulle</a>
+{% endblock %}

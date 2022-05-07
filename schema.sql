@@ -10,26 +10,25 @@ CREATE TABLE hotels (
     hotel_name TEXT UNIQUE,
     hotel_address TEXT,
     stars INTEGER,
-    owner_id INTEGER REFERENCES users
+    owner_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
 CREATE TABLE amenities (
     id SERIAL PRIMARY KEY,
-    hotel_id INTEGER REFERENCES hotels,
+    hotel_id INTEGER REFERENCES hotels ON DELETE CASCADE,
     amenity TEXT
 );
 
-CREATE TABLE recommendations (
+CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
-    hotel_id INTEGER REFERENCES hotels,
-    reviewer TEXT,
-    rating INTEGER,
-    comment TEXT
+    hotel_id INTEGER REFERENCES hotels ON DELETE CASCADE,
+    customer_id INTEGER REFERENCES users ON DELETE CASCADE,
+    rating INTEGER
 );
 
 CREATE TABLE rooms (
     id SERIAL PRIMARY KEY,
-    hotel_id INTEGER REFERENCES hotels,
+    hotel_id INTEGER REFERENCES hotels ON DELETE CASCADE,
     room_description TEXT,
     guests INTEGER,
     square_meters INTEGER,
@@ -39,9 +38,9 @@ CREATE TABLE rooms (
 
 CREATE TABLE reservations (
     reservation_id SERIAL PRIMARY KEY,
-    room_id INTEGER REFERENCES rooms,
-    hotel_id INTEGER REFERENCES hotels,
-    customer_id INTEGER REFERENCES users,
+    room_id INTEGER REFERENCES rooms ON DELETE CASCADE,
+    hotel_id INTEGER REFERENCES hotels ON DELETE CASCADE,
+    customer_id INTEGER REFERENCES users ON DELETE CASCADE,
     check_in DATE,
     check_out DATE,
     guests INTEGER
@@ -50,6 +49,6 @@ CREATE TABLE reservations (
 CREATE TABLE calendar (
     id SERIAL PRIMARY KEY,
     reservation_date DATE,
-    room_id INTEGER REFERENCES rooms,
+    room_id INTEGER REFERENCES rooms ON DELETE CASCADE,
     available_rooms INTEGER
 );

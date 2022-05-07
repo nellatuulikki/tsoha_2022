@@ -14,8 +14,9 @@ def get_all_amenities_by_hotel_id(hotel_id):
     
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()
 
-def get_hotel_name(hotel_id):
-    sql = "SELECT id, hotel_name FROM hotels WHERE id= :hotel_id"
+def get_hotel_information(hotel_id):
+    sql = "SELECT id, hotel_name, hotel_address, stars FROM hotels WHERE id= :hotel_id"
+    print(db.session.execute(sql, {"hotel_id": hotel_id}).fetchone())
     
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()
 
@@ -64,3 +65,28 @@ def add_room(hotel_id, room_description, guests, square_meters, number_of_rooms,
 def get_rooms(hotel_id):
     sql = "SELECT * FROM rooms WHERE hotel_id= :hotel_id"
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()
+
+def delete_hotel(hotel_id):
+    try:
+        sql = """DELETE FROM hotels where id = :hotel_id"""
+        db.session.execute(sql, {"hotel_id" : int(hotel_id)})
+        db.session.commit()
+        return True
+
+    except Exception as e:
+        print(e)
+        return False
+
+def get_reviews_by_customer_id(customer_id, hotel_id):
+    sql = "SELECT hotel_id, customer_id, rating  FROM reviews WHERE customer_id = :customer_id and hotel_id = :hotel_id"
+    return db.session.execute(sql, {"customer_id": customer_id, "hotel_id": hotel_id}).fetchall()
+
+def add_review(hotel_id, customer_id, rating):
+    try:
+        sql = "INSERT INTO reviews (hotel_id, customer_id, rating) VALUES (:hotel_id, :customer_id, :rating)"
+        db.session.execute(sql, {"hotel_id":hotel_id, "customer_id": customer_id, "rating": rating})
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False
