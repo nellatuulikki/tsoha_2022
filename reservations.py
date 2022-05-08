@@ -40,23 +40,23 @@ def get_reservations_by_customer_id(customer_id):
 
     return db.session.execute(sql, {"customer_id":customer_id}).fetchall()
 
+def get_all_the_dates_by_hotel_room(room_id):
+    sql = "SELECT reservation_date from calendar where room_id = room_id"
+    return [datetime.strptime(str(date[0]), "%Y-%m-%d") for date in db.session.execute(sql, {"customer_id":room_id}).fetchall()]
+
 def add_new_dates_to_calendar(start_date, end_date, room_id, available_rooms):
     reservation_date = start_date
+    
+    reservation_dates_for_room = get_all_the_dates_by_hotel_room(room_id)
 
-    try:
-        while reservation_date <= end_date:
+    while reservation_date <= end_date:
+        if not reservation_date in reservation_dates_for_room:
             sql = """INSERT INTO calendar (reservation_date, room_id, available_rooms) 
                     VALUES (:reservation_date, :room_id, :available_rooms)"""
 
             db.session.execute(sql, {"reservation_date":reservation_date, "room_id":room_id, "available_rooms":available_rooms})
             db.session.commit()
-            reservation_date = reservation_date + timedelta(days=1)
-
-        return True
-
-    except Exception as e:
-        print(e)
-        return False
+        reservation_date = reservation_date + timedelta(days=1)
 
 def substract_available_rooms(room_id, check_in, check_out):
     try:

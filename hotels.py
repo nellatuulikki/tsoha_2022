@@ -24,16 +24,18 @@ def get_amenities(hotel_id):
     sql = "SELECT DISTINCT amenity FROM amenities WHERE hotel_id= :hotel_id"
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()
 
-def add_hotel(hotel_name, hotel_address, stars, owner_id):
-    try:
-        sql = "INSERT INTO hotels (hotel_name, hotel_address, stars, owner_id) VALUES (:hotel_name, :hotel_address, :stars, :owner_id)"
-        db.session.execute(sql, {"hotel_name":hotel_name, "hotel_address": hotel_address, "stars":stars, "owner_id":owner_id})
-        db.session.commit()
+def get_all_hotel_names():
+    sql = "SELECT hotel_name FROM hotels"
+    return [name[0] for name in db.session.execute(sql).fetchall()]
 
-        return True
-    except Exception as e:
-        print(e)
-        return False
+def get_all_room_names_by_hotel_id(hotel_id):
+    sql = "SELECT rooms FROM rooms where hotel_id = :hotel_id"
+    return [name[0] for name in db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()]
+
+def add_hotel(hotel_name, hotel_address, stars, owner_id):
+    sql = "INSERT INTO hotels (hotel_name, hotel_address, stars, owner_id) VALUES (:hotel_name, :hotel_address, :stars, :owner_id)"
+    db.session.execute(sql, {"hotel_name":hotel_name, "hotel_address": hotel_address, "stars":stars, "owner_id":owner_id})
+    db.session.commit()
 
 def add_amenity(amenities, hotel_id):
     try:
