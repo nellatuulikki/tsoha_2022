@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-Minkä hotellin tietoja haluat muokata?
+<h3>Minkä hotellin tietoja haluat muokata?</h3>
 
 <form action="/select_hotel" method="POST">
 <select name="hotel_id">
@@ -12,30 +12,37 @@ Minkä hotellin tietoja haluat muokata?
 </form>
 
 {% if selected_hotel != None %}
-Voit muokata hotellin {{selected_hotel.hotel_name }} tietoja<br>
-<br>
-
-<h3>Hotellin huoneet</h3><br>
+<h3>Voit muokata hotellin {{selected_hotel.hotel_name }} tietoja</h3>
+<h3>Hotellin huoneet</h3>
+<table class="w3-table">
+<tr>
+    <th>Kuvaus</th>
+    <th>Asiakkaiden lkm</th>
+    <th>Pinta-ala</th>
+    <th>Huoneiden lkm</th>
+    <th>Hinta per yö</th>
+</tr>
 {% for room in rooms %}
-<li>
-Huoneid: {{ room.id }}
-Huonekuvaus: {{ room.room_description }}
-Asiakasmäärä: {{ room.guest}}
-Pinta-ala: {{ room.square_meters}}
-Lukumäärä: {{ room.number_of_rooms}}
-Hinta per yö: {{ room.price}}
-</li>
+<tr>
+    <td>{{ room.room_description }}</td>
+    <td>{{ room.guests }}</td>
+    <td>{{ room.square_meters }}</td>
+    <td>{{ room.number_of_rooms }}</td>
+    <td>{{ room.price }}</td>
+</tr>
 {% endfor %}
+</table>
+
 <br>
 
-<h3>Hotellin palvelut</h3><br>
+<h3>Hotellin palvelut</h3>
 {% for amenity in amenities %}
 <li>{{ amenity.amenity }}</li>
 {% endfor %}
 <br>
 
 <form action="/add_hotel_amenities" method="POST">
-<h3>Lisää hotellille palveluita:</h3><br>
+<h3>Lisää hotellille palveluita:</h3>
 <input type="checkbox" name="hotel_amenity" value="Kylpylä"> Kylpylä
 <input type="checkbox" name="hotel_amenity" value="Ilmainen pysäköinti"> Ilmainen pysäköinti
 <input type="checkbox" name="hotel_amenity" value="Ravintola"> Ravintola
@@ -50,12 +57,12 @@ Hinta per yö: {{ room.price}}
 <input type="checkbox" name="hotel_amenity" value="Tohvelit"> Tohvelit
 <input type="checkbox" name="hotel_amenity" value="Untuvapeite"> Untuvapeite
 <input type="checkbox" name="hotel_amenity" value="Hiustenkuivaaja"> Hiustenkuivaaja
-<input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
-<input type="submit" value="Tallenna">
-</form> <br>
+<input type="hidden" name="hotel_id" value="{{selected_hotel.id}}"><br><br>
+<input type="submit" value="Lisää palvelut">
+</form>
 
 
-<h3>Lisää huone</h3> <br>
+<h3>Lisää huone</h3>
 <form action="/create_room" method="POST">
 Huoneen kuvaus
 <input type="Text" name="room_description"><br>
@@ -66,9 +73,8 @@ Hotellihuoneen pinta-ala
 Huoneiden lukumäärä
 <input type="integer" name="number_of_rooms"><br>
 Huoneen hinta per yö
-<input type="float" name="price"><br>
+<input type="float" name="price"><br><br>
 <input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
-<br>
 <input type="submit" value="Lisää huoneet">
 </form>
 
@@ -78,16 +84,13 @@ Huoneen nimi <select name="room_id">
 {% for room in rooms %}
 <option value={{room.id}}> {{ room.room_description }}
 {% endfor %}
-</select>
+</select><br>
 Aloituspäivä <input type="date" name="start_date"><br>
-Lopetuspäivämäärä <input type="date" name="end_date"><br>
-<br>
+Lopetuspäivämäärä <input type="date" name="end_date"><br><br>
 <input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
-<input type="submit" value="Lisää varattavat päivät">
+<input type="submit" value="Lisää kalenteriin">
 </form>
 
 {% endif %}
-<a href="/">Palaa etusivulle</a>
-
 {% endblock %}
     

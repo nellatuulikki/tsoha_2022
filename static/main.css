@@ -8,15 +8,9 @@ body {
     padding: 60px;
     text-align: center;
     background: #8fb8f5;
+    border-radius: .5em;
     font-size: 2em;
     color: #321b85;
-}
-
-.user{
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 1.0em;
-    float: right;
 }
 
 li {
@@ -35,7 +29,16 @@ ul li a{
     border: 2px solid #645697;
 }
 
-.hotel{
+form #hotel_button {
+    padding: 1em 1em;
+    max-width: 12em;
+    border-radius: 25px;
+    border: 2px solid #645697;
+    background: #8fb8f5;
+    font-size: 1.1em;
+}
+
+.hotel {
     padding: 1em 1em;
     max-width: 12em;
     border-radius: 25px;
@@ -45,7 +48,7 @@ ul li a{
 
 input {
     padding: 0 .5em;
-    max-width: 9em;
+    max-width: 12em;
     grid-template-columns: 5em 10em;
     grid-row-gap: .3em;
     margin: auto 0;

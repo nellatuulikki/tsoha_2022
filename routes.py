@@ -79,22 +79,22 @@ def create_room():
 
 @app.route("/book_hotel", methods=["POST"])
 def show_available_hotels():
-    check_in = datetime.strptime(request.form["check_in"], "%Y-%m-%d")
-    check_out = datetime.strptime(request.form["check_out"], "%Y-%m-%d")
+    check_in = request.form["check_in"]
+    check_out = request.form["check_out"]
     customers = request.form["customers"]
 
-    if check_in < datetime.today():
-        return render_template("error.html", message="Päivää ei ole enää mahdollista varata")
     if check_in == "" or check_out == "":
         return render_template("error.html", message="Anna tulo- ja lähtöpäivämäärät")
-    if check_in > check_out:
+    if datetime.strptime(check_in, "%Y-%m-%d") < datetime.today():
+        return render_template("error.html", message="Päivää ei ole enää mahdollista varata")
+    if datetime.strptime(check_in, "%Y-%m-%d") > datetime.strptime(check_out, "%Y-%m-%d"):
         return render_template("error.html", message="Tulopäivä ei voi olla lähtöpäivän jälkeen")
     if customers == "" or not customers.isdigit():
         return render_template("error.html", message="Anna asiakkaiden lukumäärä kokonaislukuna")
     if int(customers) > 10:
         return render_template("error.html", message="Asiakkaita voi olla maksimissaan 10")
 
-    available_hotels = reservations.get_available_hotels(check_in, customers)
+    available_hotels = reservations.get_available_hotels(datetime.strptime(check_in, "%Y-%m-%d"), customers)
 
     return render_template("book_hotel.html",
                            check_in=check_in,

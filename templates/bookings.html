@@ -2,16 +2,14 @@
 {% block content %}
 
 {% if new_booking == True %}
-Uusi varaus tehty!<br>
-<br>
+<h3>Uusi varaus tehty!</h3>
 {% endif %}
 
-Sinulta löytyy yhteensä {{ number_of_reservations }} varausta 
-<br>
+<h3>Sinulta löytyy yhteensä {{ number_of_reservations }} varausta</h3>
 
 {% for room in reserved_rooms %}
-    Varausnumero {{ room.reservation_id}} Huoneessa {{ room.room_id}} päiville {{ room.check_in}} {{ room.check_out}} {{ room.guests}} asiakkaalle
-    <br>
+    <h4>Varausnumero {{ room.reservation_id}} {{ room.hotel_name }}</h4>
+    {{ room.check_in }} - {{ room.check_out }} {{ room.room_description }} {{ room.guests}} asiakkaalle
     <form action="/cancel_reservation" method="POST">
         <input type="hidden" name="reservation_id" value="{{ room.reservation_id }}">
         <input type="hidden" name="check_in" value="{{ room.check_in }}">
@@ -19,8 +17,5 @@ Sinulta löytyy yhteensä {{ number_of_reservations }} varausta
         <input type="hidden" name="room_id" value="{{ room.room_id }}">
         <input type="submit" value="Poista varaus">
     </form>
-    <br>
 {% endfor %}
-
-<a href="/">Palaa etusivulle</a>
 {% endblock %}

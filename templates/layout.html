@@ -7,11 +7,11 @@
 <body>
     <div class="user">
         {% if session.user_id %}
-        Olet kirjautuneena tunnuksella <b>{{ session.user_name }}</b>.<br> 
-        <a href="/logout">Kirjaudu ulos</a><br>
+        Olet kirjautuneena tunnuksella <b>{{ session.user_name }}</b>
+        <a href="/logout">Kirjaudu ulos</a>
         {% else %}
-        <a href="/login">Kirjaudu sisään</a><br>
-        <a href="/register">Luo tunnus</a><br>
+        <a href="/login">Kirjaudu sisään</a>
+        <a href="/register">Luo tunnus</a>
         {% endif %}
 
         {% if session.user_role == 1 %}
@@ -19,8 +19,8 @@
         {% endif %}
 
         {% if session.user_role == 2 %}
-        <a href="/modify_hotels">Lisää hotelli</a><br>
-        <a href="/add_amenity">Lisää hotellille mukavuuksia</a><br>
+        <a href="/modify_hotels">Lisää hotelli</a>
+        <a href="/add_amenity">Lisää hotellille mukavuuksia</a>
         {% endif %}
 
         <a href="/">Palaa etusivulle</a>

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 
-Hotellit, joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle
+<h3>Hotellit, joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle</h3>
 
 <ul>
 {% for hotel in available_hotels %}
@@ -10,11 +10,8 @@ Hotellit, joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ 
         <input type="hidden" name="check_out" value= {{check_out}}> 
         <input type="hidden" name="hotel_id" value= {{hotel.hotel_id}}> 
         <input type="hidden" name="guests" value= {{customers}}>
-        <button type="submit"> {{ hotel.hotel_name }}</button>
+        <button id="hotel_button" type="submit"> {{ hotel.hotel_name }}</button>
     </form>
 {% endfor %}
 </ul>
-
-<a href="/">Palaa etusivulle</a>
-
 {% endblock %}

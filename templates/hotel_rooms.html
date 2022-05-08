@@ -1,8 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 
-Hotellissa {{ hotel_name }} on seuraavia vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ guests }} asiakkaalle <br>
-<br>
+<h3>Hotellissa {{ hotel_name }} on seuraavia vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ guests }} asiakkaalle</h3> 
 
 <b>Varattavissa ovat seuraavat huoneet</b>
 <ul>
@@ -20,9 +19,9 @@ Hotellissa {{ hotel_name }} on seuraavia vapaita huoneita päiville {{ check_in 
             <input type="hidden" name="hotel_id" value= {{hotel_id}}>
             <input type="submit" value="Varaa Huone">
         {% endif %}
+        <br>
+        <br>
     </form>
 {% endfor %}
 </ul>
-
-<a href="/">Palaa etusivulle</a>
 {% endblock %}

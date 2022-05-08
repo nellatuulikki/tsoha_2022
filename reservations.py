@@ -33,8 +33,10 @@ def add_reservation(room_id, customer_id, check_in, check_out, guests, hotel_id)
     substract_available_rooms(room_id, check_in, check_out)
 
 def get_reservations_by_customer_id(customer_id):
-    sql = """SELECT reservation_id, room_id, check_in, check_out, guests
-             FROM reservations
+    sql = """SELECT reservation_id, room_id, room_description, check_in, check_out, a.guests, hotel_name
+             FROM reservations a
+             left join rooms b on (a.room_id = b.id)
+             left join hotels c on (a.hotel_id = c.id)
              WHERE customer_id = :customer_id"""
 
     return db.session.execute(sql, {"customer_id":customer_id}).fetchall()
