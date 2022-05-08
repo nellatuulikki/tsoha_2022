@@ -4,3 +4,5 @@ disable=missing-module-docstring,
         missing-function-docstring,
         import-error,
         cyclic-import
+
+ignored-classes=scoped_session
