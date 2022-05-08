@@ -79,7 +79,7 @@ def add_room(hotel_id, room_description, guests, square_meters, number_of_rooms,
 
 
 def get_rooms(hotel_id):
-    sql = """SELECT hotel_id, room_description, guests, square_meters, number_of_rooms, price
+    sql = """SELECT id, hotel_id, room_description, guests, square_meters, number_of_rooms, price
              FROM rooms 
              WHERE hotel_id= :hotel_id"""
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()

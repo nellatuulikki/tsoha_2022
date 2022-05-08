@@ -40,10 +40,10 @@ def get_reservations_by_customer_id(customer_id):
     return db.session.execute(sql, {"customer_id":customer_id}).fetchall()
 
 def get_all_the_dates_by_hotel_room(room_id):
-    sql = """SELECT reservation_datefrom
+    sql = """SELECT reservation_date from
              calendar where room_id = room_id"""
     return [datetime.strptime(str(date[0]), "%Y-%m-%d")
-            for date in db.session.execute(sql, {"customer_id":room_id}).fetchall()]
+            for date in db.session.execute(sql, {"room_id":room_id}).fetchall()]
 
 def add_new_dates_to_calendar(start_date, end_date, room_id, available_rooms):
     reservation_date = start_date
