@@ -97,8 +97,3 @@ def cancel_reservation(reservation_id):
     db.session.execute(sql, {"reservation_id" :reservation_id})
     db.session.commit()
 
-def count_reservations_by_customer_id(customer_id):
-    sql = """COUNT(id) as reservations
-             FROM reservations 
-             where customer_id = :customer_id"""
-    return db.session.execute(sql, {"owner_id": customer_id}).fetchone()[0]

@@ -6,7 +6,7 @@
     <h3>Uusi varaus tehty!</h3>
 {% endif %}
 
-<h3>Sinulta löytyy yhteensä {{ number_of_reservations }} varausta</h3>
+<h3>Sinulta löytyy seuraavat varaukset</h3>
 
 {% for room in reserved_rooms %}
     <h4>Varausnumero {{ room.reservation_id}} {{ room.hotel_name }}</h4>
