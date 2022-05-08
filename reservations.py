@@ -13,7 +13,7 @@ def get_available_hotels(reservation_date, guests):
                                     "guests": guests}).fetchall()
 
 def get_available_rooms(reservation_date, hotel_id):
-    sql = """SELECT b.id, room_description, guests, square_meters, hotel_id
+    sql = """SELECT b.id, room_description, guests, square_meters, hotel_id, price
             FROM calendar a
             left join rooms b on (a.room_id = b.id)
             where reservation_date = :reservation_date
@@ -24,13 +24,17 @@ def get_available_rooms(reservation_date, hotel_id):
 
 def add_reservation(room_id, customer_id, check_in, check_out, guests, hotel_id):
     sql = """INSERT INTO reservations (room_id, customer_id, check_in, check_out, guests, hotel_id)
-            VALUES (:room_id, :customer_id, :check_in, :check_out, :guests, :hotel_id)"""
+             VALUES (:room_id, :customer_id, :check_in, :check_out, :guests, :hotel_id)"""
 
     db.session.execute(sql, {"room_id":room_id, "customer_id": customer_id,
                              "check_in":check_in, "check_out":check_out,
                              "guests":guests, "hotel_id":hotel_id})
     db.session.commit()
-    substract_available_rooms(room_id, check_in, check_out)
+    reservation_date = check_in
+    while reservation_date <= check_out:
+        substract_available_rooms(room_id, check_in, check_out)
+
+        reservation_date = reservation_date + timedelta(days=1)
 
 def get_reservations_by_customer_id(customer_id):
     sql = """SELECT reservation_id, room_id, room_description, check_in, check_out, a.guests, hotel_name
@@ -92,3 +96,9 @@ def cancel_reservation(reservation_id):
              where reservation_id = :reservation_id"""
     db.session.execute(sql, {"reservation_id" :reservation_id})
     db.session.commit()
+
+def count_reservations_by_customer_id(customer_id):
+    sql = """COUNT(id) as reservations
+             FROM reservations 
+             where customer_id = :customer_id"""
+    return db.session.execute(sql, {"owner_id": customer_id}).fetchone()[0]

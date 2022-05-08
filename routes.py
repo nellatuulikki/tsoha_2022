@@ -21,7 +21,8 @@ def add_amenity():
                            hotels=hotels.get_hotels_by_owner_id(users.user_id()),
                            selected_hotel=None,
                            amenities=None,
-                           rooms=([]))
+                           rooms=([]),
+                           count_rooms=None)
 
 @app.route("/add_hotel_amenities", methods=["POST"])
 def add_hotel_amenities():
@@ -32,7 +33,8 @@ def add_hotel_amenities():
                            hotels=hotels.get_hotels_by_owner_id(users.user_id()),
                            selected_hotel=hotels.get_hotel_information(hotel_id),
                            amenities=hotels.get_amenities(hotel_id),
-                           rooms=hotels.get_rooms(hotel_id))
+                           rooms=hotels.get_rooms(hotel_id),
+                           count_rooms=hotels.count_rooms_by_hotel_id(hotel_id))
 
 
 @app.route("/select_hotel", methods=["POST"])
@@ -43,7 +45,8 @@ def select_hotel():
                            hotels=hotels.get_hotels_by_owner_id(users.user_id()),
                            selected_hotel=hotels.get_hotel_information(hotel_id),
                            amenities=hotels.get_amenities(hotel_id),
-                           rooms=hotels.get_rooms(hotel_id))
+                           rooms=hotels.get_rooms(hotel_id),
+                           count_rooms=hotels.count_rooms_by_hotel_id(hotel_id))
 
 @app.route("/create_room", methods=["POST"])
 def create_room():
@@ -75,7 +78,8 @@ def create_room():
                            hotels=hotels.get_hotels_by_owner_id(users.user_id()),
                            selected_hotel=hotels.get_hotel_information(hotel_id),
                            amenities=hotels.get_amenities(hotel_id),
-                           rooms=hotels.get_rooms(hotel_id))
+                           rooms=hotels.get_rooms(hotel_id),
+                           count_rooms=hotels.count_rooms_by_hotel_id(hotel_id))
 
 @app.route("/book_hotel", methods=["POST"])
 def show_available_hotels():
@@ -91,8 +95,8 @@ def show_available_hotels():
         return render_template("error.html", message="Tulopäivä ei voi olla lähtöpäivän jälkeen")
     if customers == "" or not customers.isdigit():
         return render_template("error.html", message="Anna asiakkaiden lukumäärä kokonaislukuna")
-    if int(customers) > 10:
-        return render_template("error.html", message="Asiakkaita voi olla maksimissaan 10")
+    if int(customers) > 10 or int(customers) < 1:
+        return render_template("error.html", message="Asiakkaita voi olla väliltä 1-10")
 
     available_hotels = reservations.get_available_hotels(datetime.strptime(check_in, "%Y-%m-%d"), customers)
 
@@ -233,30 +237,38 @@ def delete_hotel():
 @app.route("/update_booking_calendar", methods=["POST"])
 def update_booking_calendar():
     room_id = request.form["room_id"]
-    start_date = datetime.strptime(request.form["start_date"], "%Y-%m-%d")
-    end_date = datetime.strptime(request.form["end_date"], "%Y-%m-%d")
+    start_date = request.form["start_date"]
+    end_date = request.form["end_date"]
     hotel_id = request.form["hotel_id"]
 
+    if start_date == "" or end_date == "":
+        return render_template("error.html",
+                               message='Anna aloitus ja lopetuspäivämäärä')
+
+    start_date = datetime.strptime(request.form["start_date"], "%Y-%m-%d")
+    end_date = datetime.strptime(request.form["end_date"], "%Y-%m-%d")
+
     if start_date > end_date:
-        return render_template("error.html", 
+        return render_template("error.html",
                                message='Aloituspäivä ei voi olla lopetuspäivän jälkeen')
 
-    reservations.add_new_dates_to_calendar(start_date,
-                                           end_date,
-                                           room_id,
-                                           hotels.get_room_guest_number(room_id)[0])
+    reservations.add_new_dates_to_calendar(start_date=start_date,
+                                           end_date=end_date,
+                                           room_id=room_id,
+                                           available_rooms=hotels.get_room_guest_number(room_id)[0])
 
     return render_template("/add_amenity.html",
                            hotels=hotels.get_hotels_by_owner_id(users.user_id()),
                            selected_hotel=hotels.get_hotel_information(hotel_id),
                            amenities=hotels.get_amenities(hotel_id),
-                           rooms=hotels.get_rooms(hotel_id))
+                           rooms=hotels.get_rooms(hotel_id),
+                           count_rooms=hotels.count_rooms_by_hotel_id(hotel_id))
 
 @app.route("/create_booking", methods=["POST"])
 def create_booking():
     room_id = request.form["room_id"]
-    check_in = str(request.form["check_in"])
-    check_out = str(request.form["check_out"])
+    check_in = datetime.strptime(request.form["check_in"], "%Y-%m-%d")
+    check_out = datetime.strptime(request.form["check_out"], "%Y-%m-%d")
     guests = int(request.form["guests"])
     hotel_id = request.form["hotel_id"]
 

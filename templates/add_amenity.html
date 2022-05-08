@@ -78,6 +78,7 @@ Huoneen hinta per yö
 <input type="submit" value="Lisää huoneet">
 </form>
 
+{% if count_rooms > 0 %}
 <form action="/update_booking_calendar" method="POST">
 <h3>Lisää huoneita varausjärjestelmään</h3>
 Huoneen nimi <select name="room_id">
@@ -90,6 +91,8 @@ Lopetuspäivämäärä <input type="date" name="end_date"><br><br>
 <input type="hidden" name="hotel_id" value="{{selected_hotel.id}}">
 <input type="submit" value="Lisää kalenteriin">
 </form>
+{% endif %}
+
 
 {% endif %}
 {% endblock %}

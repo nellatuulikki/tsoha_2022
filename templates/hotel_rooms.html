@@ -10,6 +10,7 @@
         <li> {{ room.room_description }}
         <li> Vuodepaikkoja on {{ room.guests }}
         <li> Huoneessa on {{ room.square_meters }} neliömetriä
+        <li> Hinta per yö {{ room.price }} 
             
         {% if session.user_role == 1 %}
             <input type="hidden" name="room_id" value= {{room.id}}> 

@@ -88,3 +88,11 @@ def delete_hotel(hotel_id):
     sql = """DELETE FROM hotels where id = :hotel_id"""
     db.session.execute(sql, {"hotel_id" : int(hotel_id)})
     db.session.commit()
+
+def count_rooms_by_hotel_id(hotel_id):
+    sql = """SELECT COUNT(id) as count_rooms
+             FROM rooms
+             where hotel_id = :hotel_id"""
+    return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()[0]
+
+
