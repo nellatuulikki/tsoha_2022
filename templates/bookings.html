@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if session.user_id %}
 
 {% if new_booking == True %}
-<h3>Uusi varaus tehty!</h3>
+    <h3>Uusi varaus tehty!</h3>
 {% endif %}
 
 <h3>Sinulta löytyy yhteensä {{ number_of_reservations }} varausta</h3>
@@ -15,7 +16,9 @@
         <input type="hidden" name="check_in" value="{{ room.check_in }}">
         <input type="hidden" name="check_out" value="{{ room.check_out }}">
         <input type="hidden" name="room_id" value="{{ room.room_id }}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <input type="submit" value="Poista varaus">
     </form>
 {% endfor %}
+{% endif %}
 {% endblock %}

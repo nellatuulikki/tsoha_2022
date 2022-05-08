@@ -13,7 +13,8 @@ def index():
 @app.route("/modify_hotels")
 def modify_hotels():
     return render_template("modify_hotels.html",
-                           hotels=hotels.get_hotels_by_owner_id(users.user_id()))
+                           hotels=hotels.get_hotels_by_owner_id(users.user_id()),
+                           count_hotels = hotels.count_hotels_by_owner_id(users.user_id()))
 
 @app.route("/add_amenity")
 def add_amenity():
@@ -26,6 +27,7 @@ def add_amenity():
 
 @app.route("/add_hotel_amenities", methods=["POST"])
 def add_hotel_amenities():
+    users.check_csrf()
     hotel_id = request.form["hotel_id"]
 
     hotels.add_amenity(request.form.getlist("hotel_amenity"), hotel_id=request.form["hotel_id"])
@@ -39,6 +41,7 @@ def add_hotel_amenities():
 
 @app.route("/select_hotel", methods=["POST"])
 def select_hotel():
+    users.check_csrf()
     hotel_id = request.form["hotel_id"]
 
     return render_template("/add_amenity.html",
@@ -50,6 +53,7 @@ def select_hotel():
 
 @app.route("/create_room", methods=["POST"])
 def create_room():
+    users.check_csrf()
     description = request.form["room_description"]
     guests = request.form["guests"]
     square_meters = request.form["square_meters"]
@@ -83,6 +87,7 @@ def create_room():
 
 @app.route("/book_hotel", methods=["POST"])
 def show_available_hotels():
+    users.check_csrf()
     check_in = request.form["check_in"]
     check_out = request.form["check_out"]
     customers = request.form["customers"]
@@ -108,6 +113,7 @@ def show_available_hotels():
 
 @app.route("/hotel_rooms", methods=["POST"])
 def show_available_rooms():
+    users.check_csrf()
     check_in = str(request.form["check_in"])
     check_out = str(request.form["check_out"])
     guests = request.form["guests"]
@@ -133,6 +139,7 @@ def bookings():
 
 @app.route("/cancel_reservation", methods=["POST"])
 def cancel_reservation():
+    users.check_csrf()
     reservation_id = request.form["reservation_id"]
     check_in = request.form["check_in"]
     check_out = request.form["check_out"]
@@ -155,6 +162,7 @@ def register():
         return render_template("register.html")
 
     if request.method == "POST":
+        users.check_csrf()
         username = request.form["username"]
         if len(username) < 1 or len(username) > 15:
             return render_template("error.html", message="Tunnuksen tulee sisältää 1-15 merkkiä")
@@ -181,6 +189,7 @@ def login():
         return render_template("login.html")
 
     if request.method == "POST":
+        users.check_csrf()
         username = request.form["username"]
         password = request.form["password"]
 
@@ -206,6 +215,7 @@ def show_hotel(hotel_id):
 
 @app.route("/create_hotel", methods=["POST"])
 def create_hotel():
+    users.check_csrf()
     hotel_name = request.form["hotel_name"]
     hotel_address = request.form["hotel_address"]
     stars = request.form["stars"]
@@ -224,18 +234,22 @@ def create_hotel():
     hotels.add_hotel(hotel_name, hotel_address, int(stars), users.user_id())
 
     return render_template("modify_hotels.html",
-                           hotels=hotels.get_hotels_by_owner_id(users.user_id()))
+                           hotels=hotels.get_hotels_by_owner_id(users.user_id()),
+                           count_hotels=hotels.count_hotels_by_owner_id(users.user_id()))
 
 @app.route("/delete_hotel", methods=["POST"])
 def delete_hotel():
+    users.check_csrf()
     hotel_id = request.form["hotel_id"]
 
     hotels.delete_hotel(hotel_id)
     return render_template("modify_hotels.html",
-                           hotels=hotels.get_hotels_by_owner_id(users.user_id()))
+                           hotels=hotels.get_hotels_by_owner_id(users.user_id()),
+                           count_hotels=hotels.count_hotels_by_owner_id(users.user_id()))
 
 @app.route("/update_booking_calendar", methods=["POST"])
 def update_booking_calendar():
+    users.check_csrf()
     room_id = request.form["room_id"]
     start_date = request.form["start_date"]
     end_date = request.form["end_date"]
@@ -266,6 +280,7 @@ def update_booking_calendar():
 
 @app.route("/create_booking", methods=["POST"])
 def create_booking():
+    users.check_csrf()
     room_id = request.form["room_id"]
     check_in = datetime.strptime(request.form["check_in"], "%Y-%m-%d")
     check_out = datetime.strptime(request.form["check_out"], "%Y-%m-%d")

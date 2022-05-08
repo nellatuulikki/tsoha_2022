@@ -1,18 +1,19 @@
 {% extends "layout.html" %}
 {% block content %}
 
+
 <h2>{{ hotel_name }}</h2>
 
 <h3>Hotellissa on seuraavat palvelut </h3>
 {% for amenity in amenities %}
-<li>{{ amenity.amenity}}
+    <li>{{ amenity.amenity}}
 {% endfor %} <br>
 
 <h3>Hotellissa on seuraavat huoneet</h3>
 {% for room in rooms %}
-<li> {{ room.room_description }}
-<li> Vuodepaikkoja on {{ room.guests }}
-<li> Huoneessa on {{ room.square_meters }} neliömetriä<br>
+    <li> {{ room.room_description }}
+    <li> Vuodepaikkoja on {{ room.guests }}
+    <li> Huoneessa on {{ room.square_meters }} neliömetriä<br>
 <br>
 {% endfor %}
 {% endblock %}

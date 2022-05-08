@@ -7,20 +7,20 @@
 <body>
     <div class="user">
         {% if session.user_id %}
-        Olet kirjautuneena tunnuksella <b>{{ session.user_name }}</b>
-        <a href="/logout">Kirjaudu ulos</a>
+            Olet kirjautuneena tunnuksella <b>{{ session.user_name }}</b>
+            <a href="/logout">Kirjaudu ulos</a>
         {% else %}
-        <a href="/login">Kirjaudu sisään</a>
-        <a href="/register">Luo tunnus</a>
+            <a href="/login">Kirjaudu sisään</a>
+            <a href="/register">Luo tunnus</a>
         {% endif %}
 
         {% if session.user_role == 1 %}
-        <a href="/bookings">Omat varaukset</a>
+            <a href="/bookings">Omat varaukset</a>
         {% endif %}
 
         {% if session.user_role == 2 %}
-        <a href="/modify_hotels">Lisää hotelli</a>
-        <a href="/add_amenity">Lisää hotellille mukavuuksia</a>
+            <a href="/modify_hotels">Muokkaa hotelleja</a>
+            <a href="/add_amenity">Lisää hotellille mukavuuksia</a>
         {% endif %}
 
         <a href="/">Palaa etusivulle</a>

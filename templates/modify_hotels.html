@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 
+{% if session.user_id %}
+
 <h3>Olet lisännyt sovellukseen seuraavat hotellit</h3>
 
 {% for hotel in hotels %}
-<li> {{ hotel.hotel_name }}
+    <li> {{ hotel.hotel_name }}
 {% endfor %}
 
 <h3>Lisää hotelli</h3>
@@ -17,18 +19,22 @@
     <br>Tähdet:
     <input type="text" name="stars">
     <br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää hotelli">
-    </form>
-
-<h3>Poista hotelli</h3>
-
-<form action="/delete_hotel" method="POST">
-    <select name="hotel_id">
-    {% for hotel in hotels %}
-    <option value={{hotel.id}}> {{ hotel.hotel_name }}
-    {% endfor %}
-    </select>
-    <input type="submit" value="Poista hotelli">
 </form>
 
+<h3>Poista hotelli</h3>
+{% if count_hotels > 0 %}
+    <form action="/delete_hotel" method="POST">
+        <select name="hotel_id">
+            {% for hotel in hotels %}
+            <option value={{hotel.id}}> {{ hotel.hotel_name }}
+            {% endfor %}
+        </select>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="Poista hotelli">
+    </form>
+
+{% endif %}
+{% endif%}
 {% endblock %}

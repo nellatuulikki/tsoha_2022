@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if session.user_id %}
 
 <h3>Hotellit, joissa vapaita huoneita päiville {{ check_in }} - {{ check_out }} {{ customers }} asiakkaalle</h3>
 
@@ -10,8 +11,10 @@
         <input type="hidden" name="check_out" value= {{check_out}}> 
         <input type="hidden" name="hotel_id" value= {{hotel.hotel_id}}> 
         <input type="hidden" name="guests" value= {{customers}}>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <button id="hotel_button" type="submit"> {{ hotel.hotel_name }}</button>
     </form>
 {% endfor %}
 </ul>
+{% endif %}
 {% endblock %}

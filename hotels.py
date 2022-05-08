@@ -95,4 +95,10 @@ def count_rooms_by_hotel_id(hotel_id):
              where hotel_id = :hotel_id"""
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchone()[0]
 
+def count_hotels_by_owner_id(owner_id):
+    sql = """SELECT COUNT(id) as count_rooms
+             FROM hotels
+             where owner_id = :owner_id"""
+    return db.session.execute(sql, {"owner_id": owner_id}).fetchone()[0]
+
 

@@ -3,11 +3,12 @@
 
 <h2>Kirjaudu sisään</h2>
 <form action="/login" method="post">
-Käyttäjätunnus: <br><input type="text" name="username">
-<p>
-Salasana: <br><input type="password" name="password">
-<p>
-<input type="submit" value="Kirjaudu">
+    Käyttäjätunnus: <br><input type="text" name="username">
+    <p>
+    Salasana: <br><input type="password" name="password">
+    <p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Kirjaudu">
 </form>
 Jos et ole tehnyt vielä tunnusta, sen voi luoda <a href="/register">tästä</a>
 {% endblock %}

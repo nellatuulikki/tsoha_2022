@@ -16,15 +16,15 @@ Rekisteröinti palveluun
     Kuluttaja voi varata ja selailla muita hotelleita sovelluksessa. Kuluttajaoikeuksilla ei ole mahdollista listata hotellia sovellukseen.
     
     <select name="role">
-    <option value=1> Kuluttaja
-    <option value=2> Partneri
+        <option value=1> Kuluttaja
+        <option value=2> Partneri
     </select>
     <p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Luo tunnus">
     </form>
     
     <p>
-    <a href="/">Palaa etusivulle</a>
     <a href="/login">Palaa kirjautumaan</a>
 
 {% endblock %}
