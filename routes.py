@@ -14,7 +14,7 @@ def index():
 @app.route("/modify_hotels")
 def modify_hotels():
     return render_template("modify_hotels.html",
-                            hotels = hotels.get_hotels_by_owner_id(users.user_id()))
+                            hotels=hotels.get_hotels_by_owner_id(users.user_id()))
 
 @app.route("/add_amenity")
 def add_amenity():
@@ -88,15 +88,15 @@ def show_available_hotels():
     customers = request.form["customers"]
 
     if check_in < datetime.today():
-        return render_template("error.html", message= 'Päivää ei ole enää mahdollista varata')
+        return render_template("error.html", message= "Päivää ei ole enää mahdollista varata")
     if check_in is "" or check_out is "":
-        return render_template("error.html", message= 'Anna tulo- ja lähtöpäivämäärät')
+        return render_template("error.html", message= "Anna tulo- ja lähtöpäivämäärät")
     if check_in > check_out:
-        return render_template("error.html", message= 'Tulopäivä ei voi olla lähtöpäivän jälkeen')
+        return render_template("error.html", message= "Tulopäivä ei voi olla lähtöpäivän jälkeen")
     if customers is "" or not customers.isdigit():
-        return render_template("error.html", message= 'Anna asiakkaiden lukumäärä kokonaislukuna')
+        return render_template("error.html", message= "Anna asiakkaiden lukumäärä kokonaislukuna")
     if int(customers) > 10:
-        return render_template("error.html", message= 'Asiakkaita voi olla maksimissaan 10')
+        return render_template("error.html", message= "Asiakkaita voi olla maksimissaan 10")
 
     available_hotels = reservations.get_available_hotels(check_in, customers)
 
@@ -224,16 +224,14 @@ def create_hotel():
     hotels.add_hotel(hotel_name, hotel_address, int(stars), users.user_id())
 
     return render_template("modify_hotels.html",
-                    hotels = hotels.get_hotels_by_owner_id(users.user_id()))
+                    hotels=hotels.get_hotels_by_owner_id(users.user_id()))
 
 @app.route("/delete_hotel", methods=["POST"])
 def delete_hotel():
     hotel_id = request.form["hotel_id"]
 
-    if hotels.delete_hotel(hotel_id):
-        return redirect("/")
-    else:
-        return render_template("error.html", message= 'Ei toimi')
+    hotels.delete_hotel(hotel_id)
+    return render_template("modify_hotels.html", hotels=hotels.get_hotels_by_owner_id(users.user_id()))
 
 @app.route("/update_booking_calendar", methods=["POST"])
 def update_booking_calendar():
@@ -243,29 +241,29 @@ def update_booking_calendar():
     hotel_id = request.form["hotel_id"]
 
     if start_date > end_date:
-        return render_template("error.html", message= 'Aloituspäivä ei voi olla lopetuspäivän jälkeen')
+        return render_template("error.html", message='Aloituspäivä ei voi olla lopetuspäivän jälkeen')
 
     reservations.add_new_dates_to_calendar(start_date, end_date, room_id, hotels.get_room_guest_number(room_id)[0])
 
     
     return render_template("/add_amenity.html",
-                            hotels = hotels.get_hotels_by_owner_id(users.user_id()),
-                            selected_hotel = hotels.get_hotel_information(hotel_id),
+                            hotels=hotels.get_hotels_by_owner_id(users.user_id()),
+                            selected_hotel=hotels.get_hotel_information(hotel_id),
                             amenities=hotels.get_amenities(hotel_id),
                             rooms=hotels.get_rooms(hotel_id))
 
 @app.route("/create_booking", methods=["POST"])
 def create_booking():
-    room_id = request.form["room_id"]
-    check_in = str(request.form["check_in"])
-    check_out = str(request.form["check_out"])
-    guests = int(request.form["guests"])
-    hotel_id = request.form["hotel_id"]
+    room_id=request.form["room_id"]
+    check_in=str(request.form["check_in"])
+    check_out=str(request.form["check_out"])
+    guests=int(request.form["guests"])
+    hotel_id=request.form["hotel_id"]
 
     if reservations.add_reservation(room_id, users.user_id(), check_in, check_out, guests, hotel_id):
-        return render_template("/bookings.html", reserved_rooms = reservations.get_reservations_by_customer_id(users.user_id()), new_booking = True)
+        return render_template("/bookings.html", reserved_rooms=reservations.get_reservations_by_customer_id(users.user_id()), new_booking=True)
     else:
-        return render_template("error.html", message= 'Ei toimi')
+        return render_template("error.html", message='Ei toimi')
 
                             
     

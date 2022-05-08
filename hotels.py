@@ -69,15 +69,9 @@ def get_rooms(hotel_id):
     return db.session.execute(sql, {"hotel_id": hotel_id}).fetchall()
 
 def delete_hotel(hotel_id):
-    try:
-        sql = """DELETE FROM hotels where id = :hotel_id"""
-        db.session.execute(sql, {"hotel_id" : int(hotel_id)})
-        db.session.commit()
-        return True
-
-    except Exception as e:
-        print(e)
-        return False
+    sql = """DELETE FROM hotels where id = :hotel_id"""
+    db.session.execute(sql, {"hotel_id" : int(hotel_id)})
+    db.session.commit()
 
 def get_reviews_by_customer_id(customer_id, hotel_id):
     sql = "SELECT hotel_id, customer_id, rating  FROM reviews WHERE customer_id = :customer_id and hotel_id = :hotel_id"
